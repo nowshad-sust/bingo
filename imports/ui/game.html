@@ -2,6 +2,14 @@
 
   <div class="row">
       <div class="col-md-6">
+        {{#if Template.subscriptionsReady}}
+      		{{#each games}}
+            {{#each conversations}}
+              {{userId}}: {{text}}
+              <br>
+            {{/each}}
+      		{{/each}}
+      	{{/if}}
         <table id="game-table">
           {{#each number in numbers}}
           {{{ifCheck @index}}}

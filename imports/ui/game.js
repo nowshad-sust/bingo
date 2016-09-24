@@ -1,8 +1,22 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { ReactiveDict } from 'meteor/reactive-dict';
+import { Games } from '../api/tasks.js';
+
 import './game.html';
 import './game.css';
 
+
+Template.game.onCreated(function gameOnCreated() {
+	this.state = new ReactiveDict();
+  Meteor.subscribe('games');
+});
+
+
 Template.game.helpers({
+	games: ()=>{
+		return Games.find({});
+	},
 	ifCheck: (index)=> {
 		if(index==5 || index==10 || index==15 || index==20){
         return '</tr><tr>';
@@ -19,12 +33,7 @@ Template.game.helpers({
 
     return shuffle(numbers);
 
-  }
-});
-
-Template.game.helpers({
-
-
+  },
 });
 
 Template.game.events({
