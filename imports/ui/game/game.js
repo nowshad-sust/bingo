@@ -10,10 +10,19 @@ import './game.css';
 Template.game.onCreated(function gameOnCreated() {
 	this.state = new ReactiveDict();
   Meteor.subscribe('games');
+	Meteor.subscribe('users');
+	Meteor.subscribe('activeUsers');
 });
 
 
 Template.game.helpers({
+
+	usersList: ()=>{
+		var value = $('#search-field').val();
+		if(!value){
+			return Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} });
+		}
+	},
 	games: ()=>{
 		return Games.find({});
 	},
@@ -37,8 +46,24 @@ Template.game.helpers({
 });
 
 Template.game.events({
+	'change #search-field': function(event){
+		var value = $('#search-field').val();
+		console.log('changing:' + value);
+		var users;
+		if(!value){
+			 users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} });
+		}else{
+			console.log('not empty search');
+			users = Meteor.users.find({ "status.online": true,
+			 														_id: { $ne: Meteor.user()._id},
+																	$or: [{username: {'$regex': value}},
+																	{'profile.name': {'$regex': value}}]});
+		}
 
+	return users;
+	}
 });
+
 function shuffle (array) {
   var i = 0
     , j = 0

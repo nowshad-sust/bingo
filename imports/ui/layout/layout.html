@@ -20,12 +20,14 @@
                     <li>
                         <a href="/about">About</a>
                     </li>
+                    {{#if currentUser }}
                     <li>
-                        <a href="#">Services</a>
+                        <a href="/users">Users</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="/games">Games</a>
                     </li>
+                    {{/if}}
                     <li class="pull-right">
                         <a>{{> loginButtons}}</a>
                     </li>
@@ -43,5 +45,11 @@
             </div>
         </div>
       </div>
+
+      <footer class="site-footer" style="position:fixed; bottom:0px; width:100%;">
+          <div class="text-center">
+              <h5>Made with <i class="fa fa-smile-o"></i></h5>
+          </div>
+      </footer>
 
 </template>

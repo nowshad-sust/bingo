@@ -1,0 +1,57 @@
+<template name="users">
+  <div class="container">
+
+    <div class="row">
+        <div class="col-lg-4">
+          <ul class="list-group">
+            {{#if currentUser }}
+              {{#if Template.subscriptionsReady}}
+                {{#each users}}
+                <li class="list-group-item">
+                  {{#if username}}
+                    {{username}}
+                  {{else}}
+                    {{profile.name}}
+                  {{/if}}
+
+                      {{#if alreadyFriends _id}}
+                        <button class="btn btn-friend btn-danger">
+                          -
+                        </button>
+                      {{else}}
+                        <button class="btn btn-friend btn-success">
+                          +
+                        </button>
+                      {{/if}}
+
+                </li>
+                {{/each}}
+              {{else}}
+                {{> spinner}}
+              {{/if}}
+            {{/if}}
+          </ul>
+        </div>
+        <div class="col-md-6">
+          {{#if currentUser}}
+            {{#if Template.subscriptionsReady}}
+            <div class="form-group">
+              <input type="text" placeholder="search username" name="search" value="" id="search-field">
+            </div>
+            <div>
+          		{{#each usersList}}
+              {{#if username}}
+                {{username}}
+              {{else}}
+                {{profile.name}}
+              {{/if}}
+                <br>
+          		{{/each}}
+            </div>
+          	{{/if}}
+          {{/if}}
+        </div>
+    </div>
+
+  </div>
+</template>

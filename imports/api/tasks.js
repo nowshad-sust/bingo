@@ -40,11 +40,15 @@ Games.attachSchema(Schemas.Games);
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('games', function GamesPublication() {
-    return Games.find({});
+    return Games.find({userId: Meteor.user._id});
   });
 
   Meteor.publish('users', function UsersPublication() {
     return Meteor.users.find({},{username: 1, profile: 1});
+  });
+
+  Meteor.publish("activeUsers", function() {
+    return Meteor.users.find({ "status.online": true });
   });
 }
 
