@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './body.html';
-import './game.js';
+import './game/game.js';
 
 
 Template.game.onCreated(function gameOnCreated() {
