@@ -12,7 +12,9 @@ Template.users.onCreated(function usersOnCreated() {
 
 Template.users.helpers({
 	usersList: ()=>{
-			return Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
+			var users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
+			//console.log(users);
+			return users;
 	},
 
 	/*
@@ -32,19 +34,40 @@ Template.users.events({
     Meteor.call('setFriend', this._id);
   }*/
 	'change #search-field': function(event){
+
 		var value = $('#search-field').val();
-		console.log('changing:' + value);
+
 		var users;
+
 		if(!value){
-			 users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
+			 	users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
 		}else{
-			console.log('not empty search');
-			users = Meteor.users.find({ "status.online": true,
+				users = Meteor.users.find({ "status.online": true,
 			 														_id: { $ne: Meteor.user()._id},
 																	$or: [{username: {'$regex': value}},
 																	{'profile.name': {'$regex': value}}]},
 																	{username: 1,'profile.name':1});
-		}
-		return {usersList: users};
+				}
+
+				var items = [];
+
+				// insert all at once...
+				users.forEach(function (user) {
+					if(user.username){
+						// in the loop then
+						items.push('<li class="list-group-item">' +
+												user.username +
+												' <button type="button" class="btn btn-xs btn-info" name="button">Invite for game</button>' +
+												'</li>');
+					}else if(user.profile.name){
+						// in the loop then
+						items.push('<li class="list-group-item">' +
+												user.profile.name +
+												' <button type="button" class="btn btn-xs btn-info" name="button">Invite for game</button>' +
+												'</li>');
+					}
+				});
+
+				$("ul#userList").empty().html(items.join(""));
 	}
 });
