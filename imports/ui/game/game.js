@@ -10,7 +10,7 @@ import './game.css';
 Template.game.onCreated(function gameOnCreated() {
 	this.state = new ReactiveDict();
 	Meteor.subscribe('users');
-	Meteor.subscribe('myGames', Meteor.user._id);
+	Meteor.subscribe('myGames');
 });
 
 

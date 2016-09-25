@@ -51,7 +51,15 @@
               {{else}}
                 {{profile.name}}
               {{/if}}
-              <button type="button" class="btn btn-xs btn-info" name="button">Invite for game</button>
+              {{#if type}}
+              <button type="button" class="btn btn-xs btn-warning" name="button">Waiting Request</button>
+              {{else}}
+                {{#if type}}
+                <button type="button" class="btn btn-xs btn-success" name="button">Accept Request</button>
+                {{else}}
+                <button type="button" class="btn btn-xs btn-info" name="button">Send a Request</button>
+                {{/if}}
+              {{/if}}
                 <br>
               </li>
           		{{/each}}

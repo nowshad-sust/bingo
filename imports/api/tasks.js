@@ -51,8 +51,10 @@ if (Meteor.isServer) {
     return Meteor.users.find({ "status.online": true });
   });
 
-  Meteor.publish("myGames", function(userId) {
-    return Games.find({ $or: [{firstUserId:userId},{secondUserId:userId}]});
+  Meteor.publish("myGames", function() {
+    var userId = this._id;
+    var games =  Games.find({});
+    return games;
   });
 
 }
