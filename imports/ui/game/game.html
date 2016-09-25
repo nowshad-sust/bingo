@@ -14,15 +14,10 @@
       <div class="col-md-6">
         {{#if currentUser}}
           {{#if Template.subscriptionsReady}}
-          <div class="form-group">
-            <input type="text" placeholder="search username" name="search" value="" id="search-field">
-          </div>
-          <div>
-        		{{#each user in usersList}}
-              {{user._id}}
-              <br>
-        		{{/each}}
-          </div>
+          {{#each myGames}}
+            {{firstUserId}}:{{secondUserId}}:{{status}}
+            <br>
+          {{/each}}
         	{{/if}}
         {{/if}}
       </div>

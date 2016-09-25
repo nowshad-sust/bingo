@@ -9,22 +9,15 @@ import './game.css';
 
 Template.game.onCreated(function gameOnCreated() {
 	this.state = new ReactiveDict();
-  Meteor.subscribe('games');
 	Meteor.subscribe('users');
-	Meteor.subscribe('activeUsers');
+	Meteor.subscribe('myGames', Meteor.user._id);
 });
 
 
 Template.game.helpers({
-
-	usersList: ()=>{
-		var value = $('#search-field').val();
-		if(!value){
-			return Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} });
-		}
-	},
-	games: ()=>{
-		return Games.find({});
+	myGames: ()=>{
+		var userId = Meteor.user()._id;
+		return Games.find({ $or: [{firstUserId:userId},{secondUserId:userId}]});
 	},
 	ifCheck: (index)=> {
 		if(index==5 || index==10 || index==15 || index==20){

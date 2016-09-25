@@ -1,7 +1,9 @@
+
 <template name="users">
   <div class="container">
 
     <div class="row">
+<!--
         <div class="col-lg-4">
           <ul class="list-group">
             {{#if currentUser }}
@@ -32,6 +34,7 @@
             {{/if}}
           </ul>
         </div>
+      -->
         <div class="col-md-6">
           {{#if currentUser}}
             {{#if Template.subscriptionsReady}}
@@ -39,14 +42,20 @@
               <input type="text" placeholder="search username" name="search" value="" id="search-field">
             </div>
             <div>
+              <ul class="list-group">
+
           		{{#each usersList}}
+              <li class="list-group-item">
               {{#if username}}
                 {{username}}
               {{else}}
                 {{profile.name}}
               {{/if}}
+              <button type="button" class="btn btn-xs btn-info" name="button">Invite for game</button>
                 <br>
+              </li>
           		{{/each}}
+              </ul>
             </div>
           	{{/if}}
           {{/if}}
