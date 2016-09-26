@@ -11,27 +11,7 @@ Template.users.onCreated(function usersOnCreated() {
 });
 
 Template.users.helpers({
-	requestType: (opponentId)=>{
-		var userId = Meteor.user()._id;
-		var tempGame = Games.findOne({ $or: [
-																		{ $and: [{userId:userId},{opponentId:opponentId}]},
-																		{ $and: [{userId:opponentId},{opponentId:userId}]}
-																	],
-																	needsConfirmation: true});
 
-		if(tempGame){
-			if(tempGame.userId == userId){
-				return true;
-			}else if(tempGame.opponentId == userId){
-				return false;
-			}else{
-				return null;
-			}
-		}else{
-			return null;
-		}
-
-	},
 	isNull: (string)=>{
 		if(string == null){
 			return true;
@@ -43,7 +23,33 @@ Template.users.helpers({
 	usersList: ()=>{
 			var userId = Meteor.user()._id;
 			var users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
-			return users;
+
+			users.forEach(function(user){
+				var tempGame = Games.findOne({ $or: [
+																				{ $and: [{userId:userId},{opponentId:user._id}]},
+																				{ $and: [{userId:user._id},{opponentId:userId}]}
+																			],
+																			needsConfirmation: true});
+				var userStatus;
+				if(tempGame){
+					if(tempGame.userId == userId){
+						 userStatus = true;
+					}else if(tempGame.opponentId == userId){
+						userStatus = false;
+					}else{
+						userStatus = null;
+					}
+				}
+				var userDetails = {
+					user: user,
+					game: tempGame,
+					userStatus: userStatus
+				};
+				userList = [];
+				userList.push(userDetails);
+		});
+
+			return userList;
 	},
 
 });

@@ -14,15 +14,15 @@
 
           		{{#each usersList}}
               <li class="list-group-item">
-              {{#if username}}
-                {{username}}
+              {{#if user.username}}
+                {{user.username}}
               {{else}}
-                {{profile.name}}
+                {{user.profile.name}}
               {{/if}}
-              {{#if isNull (requestType _id) }}
+              {{#if isNull userStatus }}
               <button type="button" id="btn-create" class="btn btn-xs btn-info" value="{{_id}}">start a new game</button>
               {{else}}
-                {{#if requestType _id }}
+                {{#if userStatus }}
                 <button type="button" id="btn-cancel" class="btn btn-xs btn-danger" value="{{_id}}">Cancel request</button>
                 {{else}}
                 <button type="button" id="btn-accept" class="btn btn-xs btn-success" value="{{_id}}">Accept request</button>
