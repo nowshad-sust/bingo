@@ -12,6 +12,10 @@ Template.users.onCreated(function usersOnCreated() {
 
 Template.users.helpers({
 
+	serial: (index)=>{
+			return (index+1);
+	},
+
 	isNull: (string)=>{
 		if(string == null){
 			return true;
@@ -48,7 +52,7 @@ Template.users.helpers({
 				userList = [];
 				userList.push(userDetails);
 		});
-
+			console.log(userList);
 			return userList;
 	},
 
@@ -82,7 +86,7 @@ Template.users.events({
 						// in the loop then
 						items.push('<li class="list-group-item">' +
 												user.username +
-												' <button type="button" class="btn btn-xs btn-info" name="request" value="'+ user._id +'">Invite for game</button>' +
+												' <button type="button" class="btn btn-xs btn-info" id="btn-" value="'+ user._id +'">Invite for game</button>' +
 												'</li>');
 					}else if(user.profile.name){
 						// in the loop then
@@ -103,14 +107,15 @@ Template.users.events({
 
 	},
 	'click #btn-cancel': function(event){
-		var opponentId = this._id;
-		var userId = Meteor.user()._id;
+		var gameId = this.game._id;
+		console.log(gameId);
+
 		//cancel the request
-		$response = Meteor.call('cancelGame',userId,opponentId);
+		$response = Meteor.call('cancelGame',gameId);
+
 	},
 	'click #btn-accept': function(event){
-		var opponentId = this._id;
-		var userId = Meteor.user()._id;
-		//accept the request
+		var gameId = this.game._id;;
+		console.log(gameId);
 	},
 });

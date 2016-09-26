@@ -11,26 +11,26 @@
             </div>
             <div>
               <ul class="list-group" id="userList">
-
-          		{{#each usersList}}
-              <li class="list-group-item">
-              {{#if user.username}}
-                {{user.username}}
-              {{else}}
-                {{user.profile.name}}
-              {{/if}}
-              {{#if isNull userStatus }}
-              <button type="button" id="btn-create" class="btn btn-xs btn-info" value="{{_id}}">start a new game</button>
-              {{else}}
-                {{#if userStatus }}
-                <button type="button" id="btn-cancel" class="btn btn-xs btn-danger" value="{{_id}}">Cancel request</button>
+              	{{#each usersList}}
+                <li class="list-group-item">
+                <b>{{ serial @index }}. </b>
+                {{#if user.username}}
+                  {{user.username}}
                 {{else}}
-                <button type="button" id="btn-accept" class="btn btn-xs btn-success" value="{{_id}}">Accept request</button>
+                  {{user.profile.name}}
                 {{/if}}
-              {{/if}}
-                <br>
-              </li>
-          		{{/each}}
+                {{#if isNull userStatus }}
+                <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
+                {{else}}
+                  {{#if userStatus }}
+                  <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Cancel request</button>
+                  {{else}}
+                  <button type="button" id="btn-accept" class="btn btn-xs btn-success">Accept request</button>
+                  {{/if}}
+                {{/if}}
+                  <br>
+                </li>
+            		{{/each}}
               </ul>
             </div>
           	{{/if}}
