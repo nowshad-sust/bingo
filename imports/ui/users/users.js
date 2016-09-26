@@ -11,38 +11,41 @@ Template.users.onCreated(function usersOnCreated() {
 });
 
 Template.users.helpers({
+	requestType: (opponentId)=>{
+		var userId = Meteor.user()._id;
+		var tempGame = Games.findOne({ $or: [
+																		{ $and: [{userId:userId},{opponentId:opponentId}]},
+																		{ $and: [{userId:opponentId},{opponentId:userId}]}
+																	],
+																	needsConfirmation: true});
+
+		if(tempGame){
+			if(tempGame.userId == userId){
+				return true;
+			}else if(tempGame.opponentId == userId){
+				return false;
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
+
+	},
+	isNull: (string)=>{
+		if(string == null){
+			return true;
+		}else{
+			return false;
+		}
+	},
+
 	usersList: ()=>{
 			var userId = Meteor.user()._id;
 			var users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
-			users.forEach(function(user){
-				var tempGame = Games.findOne({ $or: [
-																				{ $and: [{userId:userId},{opponentId:user._id}]},
-																				{ $and: [{userId:user._id},{opponentId:userId}]}
-																			],
-					 														needsConfirmation: true});
-				//console.log(tempGame);
-
-				if(tempGame.userId == userId){
-					user.type = true;
-				}else if(tempGame.opponentId == userId){
-					user.type = false;
-				}else{
-					user.type = null;
-				}
-			});
-			console.log(users);
 			return users;
 	},
-	/*
-  users: ()=>{
-    if(Meteor.user()){
-        return Meteor.users.find({ _id: { $ne: Meteor.user()._id } },{username: 1,'profile.name':1});
-    }else{
-        return Meteor.users.find({},{username: 1,'profile.name':1});
-    }
-  },
-  alreadyFriends: alreadyFriends
-	*/
+
 });
 
 Template.users.events({
@@ -86,11 +89,22 @@ Template.users.events({
 
 				$("ul#userList").empty().html(items.join(""));
 	},
-	'click button': function(event){
+	'click #btn-create': function(event){
 		var opponentId = this._id;
 		var userId = Meteor.user()._id;
 		//create a new game between these two users
 		$response = Meteor.call('createGame',userId,opponentId);
 
-	}
+	},
+	'click #btn-cancel': function(event){
+		var opponentId = this._id;
+		var userId = Meteor.user()._id;
+		//cancel the request
+		$response = Meteor.call('cancelGame',userId,opponentId);
+	},
+	'click #btn-accept': function(event){
+		var opponentId = this._id;
+		var userId = Meteor.user()._id;
+		//accept the request
+	},
 });

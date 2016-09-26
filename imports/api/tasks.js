@@ -53,7 +53,9 @@ if (Meteor.isServer) {
 
   Meteor.publish("myGames", function() {
     var userId = this._id;
-    var games =  Games.find({});
+    //the query below not working properly
+    //var games =  Games.find({ $or:[{userId: userId},{opponentId: userId}]});
+    var games = Games.find({});
     return games;
   });
 
