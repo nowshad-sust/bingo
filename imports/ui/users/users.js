@@ -28,32 +28,37 @@ Template.users.helpers({
 			var userId = Meteor.user()._id;
 			var users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
 
+			this.userList = [];
 			users.forEach(function(user){
-				var tempGame = Games.findOne({ $or: [
+				this.tempGame = Games.findOne({ $or: [
 																				{ $and: [{userId:userId},{opponentId:user._id}]},
 																				{ $and: [{userId:user._id},{opponentId:userId}]}
 																			],
 																			needsConfirmation: true});
-				var userStatus;
-				if(tempGame){
-					if(tempGame.userId == userId){
-						 userStatus = true;
-					}else if(tempGame.opponentId == userId){
-						userStatus = false;
+				this.userStatus = false;
+				if(this.tempGame){
+					if(this.tempGame.userId == userId){
+						 this.userStatus = true;
+					}else if(this.tempGame.opponentId == userId){
+						this.userStatus = false;
 					}else{
-						userStatus = null;
+						this.userStatus = null;
 					}
+				}else{
+					this.userStatus = null;
 				}
-				var userDetails = {
+				 this.userDetails = {
 					user: user,
-					game: tempGame,
-					userStatus: userStatus
+					game: this.tempGame,
+					userStatus: this.userStatus
 				};
-				userList = [];
-				userList.push(userDetails);
+				this.userList.push(this.userDetails);
 		});
-			console.log(userList);
-			return userList;
+
+		if(this.userList.length > 0) {
+			return this.userList;
+		}
+		return null;
 	},
 
 });
@@ -62,6 +67,7 @@ Template.users.events({
   /*'click .btn-friend': function(event){
     Meteor.call('setFriend', this._id);
   }*/
+
 	'change #search-field': function(event){
 
 		var value = $('#search-field').val();
@@ -99,8 +105,9 @@ Template.users.events({
 
 				$("ul#userList").empty().html(items.join(""));
 	},
+
 	'click #btn-create': function(event){
-		var opponentId = this._id;
+		var opponentId = this.user._id;
 		var userId = Meteor.user()._id;
 		//create a new game between these two users
 		$response = Meteor.call('createGame',userId,opponentId);
@@ -108,8 +115,6 @@ Template.users.events({
 	},
 	'click #btn-cancel': function(event){
 		var gameId = this.game._id;
-		console.log(gameId);
-
 		//cancel the request
 		$response = Meteor.call('cancelGame',gameId);
 
@@ -117,5 +122,6 @@ Template.users.events({
 	'click #btn-accept': function(event){
 		var gameId = this.game._id;;
 		console.log(gameId);
+		//initiate a game here;
 	},
 });
