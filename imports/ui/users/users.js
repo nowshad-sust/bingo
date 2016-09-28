@@ -4,12 +4,13 @@ import { Games } from '../../api/tasks.js';
 
 import './users.html';
 
-import List from 'list.js';
+import 'list.js';
 
 Template.users.onCreated(function usersOnCreated() {
 	this.state = new ReactiveDict();
 	Meteor.subscribe('activeUsers');
 	Meteor.subscribe('myGames');
+
 });
 
 Template.users.helpers({

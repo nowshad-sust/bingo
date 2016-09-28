@@ -1,21 +1,29 @@
 
 <template name="users">
   <div class="container">
-
     <div class="row">
-        <div class="col-md-6">
-          {{#if currentUser}}
-            {{#if Template.subscriptionsReady}}
+      <h2>Online Users</h2>
+      <div class="col-md-4">
 
-            <div>
-              <ul class="list-group" id="userList">
-              	{{#each usersList}}
-                <li class="list-group-item">
-                <b>{{ serial @index }}. </b>
+        {{#if currentUser}}
+        {{#if Template.subscriptionsReady}}
+            <div id="users">
+              <input class="search form-control" placeholder="Search by username" autocomplete="on" autofocus/>
+              <br>
+              <button class="sort btn btn-default pull-right" data-sort="name">
+                Sort by name
+              </button>
+              <hr>
+
+              <ol class="list">
+
+                {{#each usersList}}
+                <li>
+
                 {{#if user.username}}
-                  {{user.username}}
+                <span class="name">{{user.username}}</span>
                 {{else}}
-                  {{user.profile.name}}
+                <span class="name">{{user.profile.name}}</span>
                 {{/if}}
                 {{#if isNull userStatus }}
                 <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
@@ -24,51 +32,30 @@
                   <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Cancel request</button>
                   {{else}}
                   <button type="button" id="btn-accept" class="btn btn-xs btn-success">Accept request</button>
+                  <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Decline request</button>
                   {{/if}}
                 {{/if}}
                   <br>
                 </li>
-            		{{/each}}
-              </ul>
+                {{/each}}
+
+              </ol>
+
             </div>
-          	{{/if}}
-          {{/if}}
-        </div>
+
+
+        	<script src="http://listjs.com/no-cdn/list.js"></script>
+            <script type="text/javascript">
+            var options = {
+              valueNames: [ 'name' ]
+              };
+
+            var userList = new List('users', options);
+            </script>
+        {{/if}}
+        {{/if}}
+
+      </div>
     </div>
-
-    <div id="hacker-list">
-
-      <input class="search" />
-      <span class="sort" data-sort="name">Sort by name</span>
-      <span class="sort" data-sort="city">Sort by city</span>
-
-      <ul class="list">
-       <li>
-         <h3 class="name">Jonny</h3>
-         <p class="city">Stockholm</p>
-       </li>
-       <li>
-         <h3 class="name">Jonas</h3>
-         <p class="city">Berlin</p>
-       </li>
-      </ul>
-    </div>
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js">
-
-    </script>
-
-    <script type="text/javascript">
-      var options = {
-        valueNames: ['name', 'city']
-      };
-
-      var hackerList = new List('hacker-list', options);
-
-      hackerList.add( { name: 'Jonas', city:'Berlin' } );
-
-    </script>
-
   </div>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
 </template>
