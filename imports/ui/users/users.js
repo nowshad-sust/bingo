@@ -79,22 +79,25 @@ Template.users.events({
 	'click #btn-cancel': function(event){
 		var gameId = this.game._id;
 		//cancel the request
-		Meteor.call('cancelGame',gameId,'cancelled', function(err,result){
-			if(err){
+		Meteor.call('cancelGame',gameId,(error, response)=>{
+			if(error){
 				sAlert.error('Boom! Something went wrong!');
+			}else{
+					sAlert.warning('Game request cancelled!');
 			}
-			sAlert.warning('Game request cancelled!');
 		});
 	},
 
 	'click #btn-decline': function(event){
 			var gameId = this.game._id;
 			//cancel the request
-			Meteor.call('cancelGame',gameId,'declined', function(err,result){
-				if(err){
+			Meteor.call('cancelGame',gameId, (error, response)=>{
+				if(error){
 					sAlert.error('Boom! Something went wrong!');
+				}else{
+						sAlert.warning('Game request Declined!');
 				}
-				sAlert.warning('Game request Declined!');
+
 			});
 		},
 	'click #btn-accept': function(event){
