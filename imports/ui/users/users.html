@@ -6,9 +6,7 @@
         <div class="col-md-6">
           {{#if currentUser}}
             {{#if Template.subscriptionsReady}}
-            <div class="form-group">
-              <input type="text" placeholder="search username" name="search" value="" id="search-field">
-            </div>
+
             <div>
               <ul class="list-group" id="userList">
               	{{#each usersList}}
@@ -38,5 +36,39 @@
         </div>
     </div>
 
+    <div id="hacker-list">
+
+      <input class="search" />
+      <span class="sort" data-sort="name">Sort by name</span>
+      <span class="sort" data-sort="city">Sort by city</span>
+
+      <ul class="list">
+       <li>
+         <h3 class="name">Jonny</h3>
+         <p class="city">Stockholm</p>
+       </li>
+       <li>
+         <h3 class="name">Jonas</h3>
+         <p class="city">Berlin</p>
+       </li>
+      </ul>
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js">
+
+    </script>
+
+    <script type="text/javascript">
+      var options = {
+        valueNames: ['name', 'city']
+      };
+
+      var hackerList = new List('hacker-list', options);
+
+      hackerList.add( { name: 'Jonas', city:'Berlin' } );
+
+    </script>
+
   </div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.min.js"></script>
 </template>

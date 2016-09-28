@@ -17,7 +17,8 @@ Template.game.onCreated(function gameOnCreated() {
 Template.game.helpers({
 	myGames: ()=>{
 		var userId = Meteor.user()._id;
-		return Games.find({ $or: [{firstUserId:userId},{secondUserId:userId}]});
+		
+		return Games.find({ $or: [{userId:userId},{opponentId:userId}]});
 	},
 	ifCheck: (index)=> {
 		if(index==5 || index==10 || index==15 || index==20){
