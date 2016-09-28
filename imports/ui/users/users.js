@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { sAlert } from 'meteor/juliancwirko:s-alert';
 import { Template } from 'meteor/templating';
 import { Games } from '../../api/tasks.js';
 
@@ -78,12 +79,29 @@ Template.users.events({
 	'click #btn-cancel': function(event){
 		var gameId = this.game._id;
 		//cancel the request
-		$response = Meteor.call('cancelGame',gameId);
-
+		Meteor.call('cancelGame',gameId,'cancelled', function(err,result){
+			if(err){
+				sAlert.error('Boom! Something went wrong!');
+			}
+			sAlert.warning('Game request cancelled!');
+		});
 	},
+
+	'click #btn-decline': function(event){
+			var gameId = this.game._id;
+			//cancel the request
+			Meteor.call('cancelGame',gameId,'declined', function(err,result){
+				if(err){
+					sAlert.error('Boom! Something went wrong!');
+				}
+				sAlert.warning('Game request Declined!');
+			});
+		},
 	'click #btn-accept': function(event){
 		var gameId = this.game._id;;
 		console.log(gameId);
 		//initiate a game here;
 	},
+
+
 });
