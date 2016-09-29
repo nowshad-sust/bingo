@@ -11,6 +11,11 @@ if (Meteor.isServer) {
     return Meteor.users.find({},{username: 1, profile: 1});
   });
 
+  Meteor.publish('thisGame', function ThisGamePublication(gameId) {
+    var game = Games.find({ _id: gameId });
+    return game;
+  });
+
   Meteor.publish("activeUsers", function() {
     return Meteor.users.find({ "status.online": true });
   });

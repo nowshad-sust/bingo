@@ -1,0 +1,41 @@
+<template name="myGames">
+
+  <div class="row">
+    <h2>My Games Log</h2>
+    <div class="col-md-6">
+        {{#if currentUser}}
+          {{#if Template.subscriptionsReady}}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Go to Game</th>
+              </tr>
+          </thead>
+          <tbody>
+          {{#each myGames}}
+            <tr>
+              <td>
+                {{userName}}
+              </td>
+              <td>
+                 {{response}}
+              </td>
+              <td>
+                {{ mainGame.timestamp}}
+              </td>
+              <td>
+                <a class="btn btn-info" href="/games/{{_id}}">Link</a>
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+        	{{/if}}
+        {{/if}}
+    </div>
+  </div>
+
+</template>

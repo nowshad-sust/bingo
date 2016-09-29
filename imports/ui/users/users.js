@@ -91,7 +91,7 @@ Template.users.events({
 	'click #btn-decline': function(event){
 			var gameId = this.game._id;
 			//cancel the request
-			Meteor.call('cancelGame', gameId, function(error, result){
+			Meteor.call('cancelGame', gameId, (error, result)=>{
 				if(error){
 					sAlert.error('Boom! Something went wrong!');
 				}else{
@@ -100,6 +100,7 @@ Template.users.events({
 
 			});
 		},
+
 	'click #btn-accept': function(event){
 		var gameId = this.game._id;;
 		console.log(gameId);
@@ -108,7 +109,7 @@ Template.users.events({
 			if(error){
 				sAlert.error('Boom! Something went wrong!');
 			}else{
-				console.log(result);
+				console.log("game accepted: " + result);
 				sAlert.success('Game request is accepted!');
 			}
 		});

@@ -10,22 +10,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand active" href="/" active>
                   Bingo!
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="{{ checkCurrentRoute 'about'}}">
                         <a href="/about">About</a>
                     </li>
                     {{#if currentUser }}
-                    <li>
+                    <li class="{{ checkCurrentRoute 'users'}}">
                         <a href="/users">Users</a>
                     </li>
-                    <li>
-                        <a href="/games">Games</a>
+                    <li class="{{ checkCurrentRoute 'mygames'}}">
+                        <a href="/mygames">Games</a>
                     </li>
                     {{/if}}
                     <li>
@@ -51,10 +51,12 @@
         </div>
       </div>
 
-      <footer class="footer" style="position:absolute; bottom:0px;">
-      <div class="container text-center">
-        <p class="text-muted"><h5>Made with <i class="fa fa-smile-o"></i></h5></p>
-      </div>
-    </footer>
+
+
+      <footer class="navbar navbar-absolute-bottom">
+        <div class="container text-center">
+          <p class="text-muted"><h5>Made with <i class="fa fa-smile-o"></i></h5></p>
+        </div>
+      </footer>
 
 </template>
