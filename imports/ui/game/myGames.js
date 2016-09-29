@@ -15,7 +15,7 @@ Template.myGames.onCreated(function gameOnCreated() {
 Template.myGames.helpers({
 	myGames: ()=>{
 		var userId = Meteor.user()._id;
-		return Games.find({ $or:[{userId:userId},{opponentId:userId}] });
+		return Games.find({ $or:[{userId:userId},{opponentId:userId}] },{sort: {'mainGame.timestamp': -1}});
 	}
 });
 

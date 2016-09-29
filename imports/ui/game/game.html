@@ -1,53 +1,74 @@
 <template name="game">
 <div class="panel">
-  <div class="row">
+  <div class="row text-center">
+    {{#if currentUser}}
+    {{#if Template.subscriptionsReady}}
+    <div class="col-md-6">
+
     <h3 class="text-center">In Game: {{ thisGame._id }}</h3>
+    <h4 class="text-center">
+      {{#if turn thisGame.mainGame.turn}}
+        <span class="bg-success">Your Turn</span>
+      {{else}}
+        <span class="bg-warning"> Opponent's Turn</span>
+      {{/if}}
+    </h4>
+
     {{#if checkUser thisGame.userId}}
-      <div class="col-md-4">
-        <h4 class="text-center">Your Board</h4>
-          <table id="game-table">
+          <table class="game-table" id="game-table">
             {{#each entry in thisGame.mainGame.userBoard}}
               {{{ifCheck @index}}}
-                <td>{{entry.number}}</td>
+              {{#if entry.selected}}
+                <td class="select-box"
+                    style="background-color:green;"
+                    data="{{ thisGame.mainGame.turn }}"
+                    status=true>{{entry.number}}</td>
+              {{else}}
+                <td class="select-box"
+                    data="{{ thisGame.mainGame.turn }}"
+                    index="{{ @index }}"
+                    status=false>{{entry.number}}</td>
+              {{/if}}
             {{/each}}
           </table>
-      </div>
-      <div class="col-md-4">
-        <h4 class="text-center">Opponent's Board</h4>
-        <table id="game-table">
-          {{#each entry in thisGame.mainGame.opponentBoard}}
-            {{{ifCheck @index}}}
-              <td>{{entry.number}}</td>
-          {{/each}}
-        </table>
-      </div>
       {{else}}
-        <div class="col-md-4">
-          <h4 class="text-center">Your Board</h4>
-            <table id="game-table">
+          <table class="game-table" id="game-table">
               {{#each entry in thisGame.mainGame.opponentBoard}}
                 {{{ifCheck @index}}}
-                  <td>{{entry.number}}</td>
+                {{#if entry.selected}}
+                  <td class="select-box"
+                      style="background-color:green;"
+                      data="{{ thisGame.mainGame.turn }}"
+                      status=true>{{entry.number}}</td>
+                {{else}}
+                  <td class="select-box"
+                      data="{{ thisGame.mainGame.turn }}"
+                      index="{{ @index }}"
+                      status=false>{{entry.number}}</td>
+                {{/if}}
               {{/each}}
             </table>
-        </div>
-        <div class="col-md-4">
-          <h4 class="text-center">Opponent's Board</h4>
-          <table id="game-table">
-            {{#each entry in thisGame.mainGame.userBoard}}
-              {{{ifCheck @index}}}
-                <td>{{entry.number}}</td>
-            {{/each}}
-          </table>
-        </div>
       {{/if}}
-      <div class="col-md-4">
+    </div>
+    <div class="col-md-6">
             <div class="panel panel-primary chat-window">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-comment"></span> Conversation
                 </div>
                 <div class="panel-body">
                     <ul class="chat">
+                      <li class="center clearfix text-center">
+                          <div class="chat-body clearfix">
+                              <div class="header">
+                                  <strong class="primary-font">Bingo!</strong>
+                              </div>
+                              <p>
+                                  Best of Luck for the game.
+                              </p>
+                          </div>
+                      </li>
+                      {{#each entry in thisGame.mainGame.conversation}}
+                        {{#if checkUser entry.senderId}}
                         <li class="left clearfix">
                             <div class="chat-body clearfix">
                                 <div class="header">
@@ -55,23 +76,30 @@
                                         <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
                                 </div>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                    dolor, quis ullamcorper ligula sodales.
+                                    {{entry.message}} <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
                                 </p>
                             </div>
                         </li>
+                        {{else}}
                         <li class="right clearfix">
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-                                    <strong class="pull-right primary-font">You</strong>
+
+                                    {{#if checkUser thisGame.userId}}
+                                      <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
+                                    {{else}}
+                                      <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
+                                    {{/if}}
                                 </div>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                    dolor, quis ullamcorper ligula sodales.
+                                  {{entry.message}} <small class="pull-right text-muted">
+                                      <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
                                 </p>
                             </div>
                         </li>
+                        {{/if}}
+                        {{/each}}
                     </ul>
                 </div>
                 <div class="footer bottom">
@@ -85,6 +113,10 @@
                 </div>
             </div>
       </div>
+      {{else}}
+        {{> spinner}}
+      {{/if}}
+      {{/if}}
   </div>
 </div>
 </template>
