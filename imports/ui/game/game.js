@@ -54,7 +54,7 @@ Template.game.events({
 
 		if(turn == Meteor.user()._id){
 			var status = event.target.attributes.status.value;
-			if(status == true){
+			if(status == "true"){
 				sAlert.warning('Already selected this box!',{timeout:2000});
 			}else{
 				var index = event.target.attributes.index.value;

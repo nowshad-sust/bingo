@@ -23,6 +23,7 @@
                 <td class="select-box"
                     style="background-color:green;"
                     data="{{ thisGame.mainGame.turn }}"
+                    index="{{ @index }}"
                     status=true>{{entry.number}}</td>
               {{else}}
                 <td class="select-box"
@@ -37,10 +38,11 @@
               {{#each entry in thisGame.mainGame.opponentBoard}}
                 {{{ifCheck @index}}}
                 {{#if entry.selected}}
-                  <td class="select-box"
-                      style="background-color:green;"
-                      data="{{ thisGame.mainGame.turn }}"
-                      status=true>{{entry.number}}</td>
+                <td class="select-box"
+                    style="background-color:green;"
+                    data="{{ thisGame.mainGame.turn }}"
+                    index="{{ @index }}"
+                    status=true>{{entry.number}}</td>
                 {{else}}
                   <td class="select-box"
                       data="{{ thisGame.mainGame.turn }}"
