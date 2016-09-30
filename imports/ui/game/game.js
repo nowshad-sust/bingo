@@ -27,10 +27,12 @@ Template.game.helpers({
 		var gameId = FlowRouter.getParam('gameId');
 		var game = Games.findOne({_id:gameId});
 		//check the is finished or not
-		if(game.mainGame.result){
-			return game.mainGame.result;
+		if(game.mainGame.result == Meteor.user()._id){
+			return {status:true,winner:'You Won'};
+		}else if(game.mainGame.result == 'draw'){
+			return {status:false,winner:'Game Drawn!'};
 		}else{
-			return false;
+			return {status:false,winner:'Opponent Won!'};
 		}
 	},
 	turn: function(turn){
@@ -62,16 +64,19 @@ Template.game.helpers({
 
 Template.game.events({
 	'click .select-box': function(event){
-		var turn = event.target.attributes.data;
-		if(turn){
-			if(!checkFinished()){
+
+		if(event.target.attributes.data){
+			var gameId = FlowRouter.getParam('gameId');
+			var game = Games.findOne({_id:gameId});
+			if(game.mainGame.result == null){
+				var turn = event.target.attributes.data.value;
 				if(turn == Meteor.user()._id){
 					var status = event.target.attributes.status.value;
 					if(status == "true"){
 						sAlert.warning('Already selected this box!',{timeout:2000});
 					}else{
 						var index = event.target.attributes.index.value;
-						console.log(index);
+						//console.log(index);
 						var gameId = FlowRouter.getParam('gameId');
 						Meteor.call('indexSelected', index, gameId, (error, result)=>{
 							if(error){
@@ -80,6 +85,7 @@ Template.game.events({
 								sAlert.success('index selected',{timeout:2000});
 							}
 						});
+						checkFinished();
 					}
 				}else{
 					sAlert.warning('Please wait for opponents response first!',{timeout:2000});
@@ -116,6 +122,137 @@ function checkFinished(){
 	var gameId = FlowRouter.getParam('gameId');
 	localGame = Games.findOne({_id:gameId});
 	var bingo = 0;
+
+	//check the current user is game.user or game.opponent
+	if(localGame.userId == Meteor.user()._id){
+		// this user is User
+		var myBoard = localGame.mainGame.userBoard;
+		var opBoard = localGame.mainGame.opponentBoard;
+		var myBingo = countBingo(myBoard);
+		var opBingo = countBingo(opBoard);
+		//checking game finish rules
+		if(myBingo >= 5 && opBingo <5){
+				Meteor.call('finishGame', localGame._id, Meteor.user()._id,function(error, result){
+						if(error){
+							sAlert.success('Game Finished!',{timeout:2000});
+							return true;
+						}else{
+							return false;
+						}
+					});
+					return true;
+		}else if(opBingo >= 5 && myBingo <5){
+			Meteor.call('finishGame', localGame._id, localGame.opponentId,function(error, result){
+					if(error){
+						sAlert.success('Game Finished!',{timeout:2000});
+						return true;
+					}else{
+						return false;
+					}
+				});
+				return true;
+		}else if(myBingo >= 5 && opBingo >= 5){
+			if(myBingo > opBingo){
+				Meteor.call('finishGame', localGame._id, Meteor.user()._id,function(error, result){
+						if(error){
+							sAlert.success('Game Finished!',{timeout:2000});
+							return true;
+						}else{
+							return false;
+						}
+					});
+					return true;
+				}else if(opBingo > myBingo){
+					Meteor.call('finishGame', localGame._id, localGame.opponentId,function(error, result){
+							if(error){
+								sAlert.success('Game Finished!',{timeout:2000});
+								return true;
+							}else{
+								return false;
+							}
+						});
+						return true;
+				}else if(myBingo == opBingo){
+					Meteor.call('finishGame', localGame._id, 'draw',function(error, result){
+							if(error){
+								sAlert.success('Game Drawn!!!',{timeout:2000});
+								return true;
+							}else{
+								return false;
+							}
+						});
+						return true;
+				}
+		}else{
+			return false;
+		}
+
+	}else{
+		//this user is opponent
+		var myBoard = localGame.mainGame.opponentBoard;
+		var opBoard = localGame.mainGame.userBoard;
+		var myBingo = countBingo(myBoard);
+		var opBingo = countBingo(opBoard);
+		if(myBingo >= 5 && opBingo <5){
+				Meteor.call('finishGame', localGame._id, Meteor.user()._id,function(error, result){
+						if(error){
+							sAlert.success('Game Finished!',{timeout:2000});
+							return true;
+						}else{
+							return false;
+						}
+					});
+					return true;
+		}else if(opBingo >= 5 && myBingo <5){
+			Meteor.call('finishGame', localGame._id, localGame.userId,function(error, result){
+					if(error){
+						sAlert.success('Game Finished!',{timeout:2000});
+						return true;
+					}else{
+						return false;
+					}
+				});
+				return true;
+		}else if(myBingo >= 5 && opBingo >= 5){
+			if(myBingo > opBingo){
+				Meteor.call('finishGame', localGame._id, Meteor.user()._id,function(error, result){
+						if(error){
+							sAlert.success('Game Finished!',{timeout:2000});
+							return true;
+						}else{
+							return false;
+						}
+					});
+					return true;
+				}else if(opBingo > myBingo){
+					Meteor.call('finishGame', localGame._id, localGame.userId,function(error, result){
+							if(error){
+								sAlert.success('Game Finished!',{timeout:2000});
+								return true;
+							}else{
+								return false;
+							}
+						});
+						return true;
+				}else if(myBingo == opBingo){
+					Meteor.call('finishGame', localGame._id, 'draw',function(error, result){
+							if(error){
+								sAlert.success('Game Drawn!!!',{timeout:2000});
+								return true;
+							}else{
+								return false;
+							}
+						});
+						return true;
+				}
+		}else{
+			return false;
+		}
+
+	}
+}
+
+function countBingo(board){
 	var compareArray =[
 		[0, 1, 2, 3, 4],
 		[5, 6, 7, 8, 9],
@@ -130,69 +267,22 @@ function checkFinished(){
 		[0, 6, 12, 18, 24],
 		[4, 8, 12, 16, 20]
 	];
-	//check the current user is game.user or game.opponent
-	if(localGame.userId == Meteor.user()._id){
-		// this user is User
-		var board = localGame.mainGame.userBoard;
-		//finding selected indexs
-		selectedArray = [];
-		for (var i = 0; i < board.length; i++) {
-			if(board[i].selected){
-				selectedArray.push(i);
-			}
+	var bingo = 0;
+	selectedArray = [];
+	for (var i = 0; i < board.length; i++) {
+		if(board[i].selected){
+			selectedArray.push(i);
 		}
-		for (var i = 0; i < compareArray.length; i++) {
-			if(arrayExists(compareArray[i], selectedArray)){
-				bingo++;
-			}
-		}
-		if(bingo >= 5){
-				Meteor.call('finishGame', localGame._id, function(error, result){
-						if(error){
-							sAlert.success('Game Finished!',{timeout:2000});
-							return true;
-						}else{
-							return false;
-						}
-					});
-					return true;
-		}else{
-			return false;
-		}
-
-	}else{
-		//this user is opponent
-		var board = localGame.mainGame.opponentBoard;
-		//finding selected indexs
-		selectedArray = [];
-		for (var i = 0; i < board.length; i++) {
-			if(board[i].selected){
-				selectedArray.push(i);
-			}
-		}
-
-		for (var i = 0; i < compareArray.length; i++) {
-			if(arrayExists(compareArray[i], selectedArray)){
-				bingo++;
-			}
-		}
-
-		if(bingo >= 5){
-				Meteor.call('finishGame', localGame._id, function(error, result){
-						if(error){
-							sAlert.success('Game Finished!',{timeout:2000});
-							return true;
-						}else{
-							return false;
-						}
-					});
-					return true;
-		}else{
-			return false;
-		}
-
 	}
+	for (var i = 0; i < compareArray.length; i++) {
+		if(arrayExists(compareArray[i], selectedArray)){
+			bingo++;
+		}
+	}
+
+	return bingo;
 }
+
 function arrayExists(subArray, superArray){
 	var master = superArray,
     sub = subArray,

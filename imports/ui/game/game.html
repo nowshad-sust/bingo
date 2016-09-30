@@ -10,9 +10,20 @@
 
     <h4 class="text-center">
       {{#if thisGame.mainGame.result}}
-        <div class="alert alert-success" role="alert">Game Finished
-          <br>Winner: {{ gameWinner }}
-        </div>
+
+          {{#if gameWinner.status}}
+          <div class="alert alert-success" role="alert">Game Finished
+            <br>Result:
+              {{ gameWinner.winner }}
+          </div>
+          {{else}}
+          <div class="alert alert-danger" role="alert">Game Finished
+            <br>Result:
+              {{ gameWinner.winner }}
+          </div>
+
+          {{/if}}
+
       {{else}}
         {{#if turn thisGame.mainGame.turn}}
           <div class="alert alert-success" role="alert">Your turn</div>
