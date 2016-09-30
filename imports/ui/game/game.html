@@ -6,11 +6,12 @@
     <div class="col-md-6">
 
     <h3 class="text-center">In Game: {{ thisGame._id }}</h3>
+
     <h4 class="text-center">
       {{#if turn thisGame.mainGame.turn}}
-        <span class="bg-success">Your Turn</span>
+        <div class="alert alert-success" role="alert">Your turn</div>
       {{else}}
-        <span class="bg-warning"> Opponent's Turn</span>
+        <div class="alert alert-warning" role="alert">Opponent's turn</div>
       {{/if}}
     </h4>
 

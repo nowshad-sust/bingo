@@ -55,10 +55,18 @@ Template.game.events({
 		if(turn == Meteor.user()._id){
 			var status = event.target.attributes.status.value;
 			if(status == true){
-				sAlert.warning('Already selected this box!',{timeout:200});
+				sAlert.warning('Already selected this box!',{timeout:2000});
 			}else{
 				var index = event.target.attributes.index.value;
 				console.log(index);
+				var gameId = FlowRouter.getParam('gameId');
+				Meteor.call('indexSelected', index, gameId, (error, result)=>{
+					if(error){
+						sAlert.error('Error update the index',{timeout:2000});
+					}else{
+						sAlert.success('index selected',{timeout:2000});
+					}
+				});
 			}
 		}else{
 			sAlert.warning('Please wait for opponents response first!',{timeout:2000});
