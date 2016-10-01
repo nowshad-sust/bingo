@@ -37,42 +37,42 @@ Template.users.helpers({
 				return null;
 			}
 
-
-			this.userList = [];
+			userList = [];
 			users.forEach(function(user){
-				this.tempGame = Games.findOne({ $or: [
+				tempGame = Games.findOne({ $or: [
 																				{ $and: [{userId:userId},{opponentId:user._id}]},
 																				{ $and: [{userId:user._id},{opponentId:userId}]}
 																			],
 																			needsConfirmation: true});
 
-			 this.runningGame = Games.findOne({ $or: [
+			 runningGame = Games.findOne({ $or: [
 																					{ $and: [{userId:userId},{opponentId:user._id}]},
 																					{ $and: [{userId:user._id},{opponentId:userId}]}
 																					],
 																		needsConfirmation: false, response: 'running'});
 
-				this.userStatus = false;
-				if(this.tempGame){
-					if(this.tempGame.userId == userId){
-						 this.userStatus = true;
-					}else if(this.tempGame.opponentId == userId){
-						this.userStatus = false;
+				userStatus = false;
+				if(tempGame){
+					if(tempGame.userId == userId){
+						 userStatus = true;
+					}else if(tempGame.opponentId == userId){
+						userStatus = false;
 					}else{
-						this.userStatus = null;
+						userStatus = null;
 					}
 				}else{
-					this.userStatus = null;
+					userStatus = null;
 				}
-				 this.userDetails = {
+				 userDetails = {
 					user: user,
-					game: this.tempGame,
-					runningGame: this.runningGame,
-					userStatus: this.userStatus
+					game: tempGame,
+					runningGame: runningGame,
+					userStatus: userStatus
 				};
-				this.userList.push(this.userDetails);
+				userList.push(userDetails);
 		});
-			return this.userList;
+		console.log(userList);
+			return userList;
 	},
 
 });

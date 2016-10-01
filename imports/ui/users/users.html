@@ -11,8 +11,8 @@
       </p>
 
       <div class="col-md-6">
-        {{#if currentUser}}
-        {{#if Template.subscriptionsReady}}
+        {{#if currentUser }}
+        {{#if Template.subscriptionsReady }}
             <div id="users">
               <input class="search form-control" placeholder="Search by username" autocomplete="on" autofocus/>
               <br>
@@ -26,49 +26,40 @@
                 {{#each usersList}}
                 <li class="list-group-item">
 
-                {{#if user.username}}
-                <span class="name">{{user.username}}</span>
-                {{else}}
-                <span class="name">{{user.profile.name}}</span>
-                {{/if}}
-                <span>
-                {{#if user.status.online}}
-                  <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i>
-                {{else}}
-                  <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:red;"></i>
-                {{/if}}
-              </span>
-                <span class="btn-group pull-right">
-                {{#if user.runningGame }}
-                <p>
-                  {{ user.runningGame._id }}
-                </p>
-                  Game exists<a class="btn btn-xs btn-info" href="games/{{user.runningGame.id}}">Continue Game</a>
-                {{/if}}
-                {{#if isNull userStatus }}
-                <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
-                {{else}}
-                  {{#if userStatus }}
-                  <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Cancel request</button>
+                  {{#if user.username }}
+                  <span class="name">{{user.username}}</span>
                   {{else}}
-                  <button type="button" id="btn-accept" class="btn btn-xs btn-success">Accept request</button>
-                  <button type="button" id="btn-decline" class="btn btn-xs btn-danger">Decline request</button>
+                  <span class="name">{{user.profile.name}}</span>
                   {{/if}}
-                {{/if}}
-              </span>
-                  <br>
-                </li>
+                  <span>
+                  {{#if user.status.online}}
+                    <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i>
+                  {{else}}
+                    <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:red;"></i>
+                  {{/if}}
+                </span>
+                  <span class="btn-group pull-right">
+
+                    {{#if runningGame}}
+                     <a class="btn btn-xs btn-default" href="games/{{ runningGame._id }}">Go to Game</a>
+                    {{/if}}
+
+                  {{#if isNull userStatus }}
+                  <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
+                  {{else}}
+                    {{#if userStatus }}
+                    <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Cancel request</button>
+                    {{else}}
+                    <button type="button" id="btn-accept" class="btn btn-xs btn-success">Accept request</button>
+                    <button type="button" id="btn-decline" class="btn btn-xs btn-danger">Decline request</button>
+                    {{/if}}
+                  {{/if}}
+                </span>
+                    <br>
+                  </li>
                 {{/each}}
 
               </ol>
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js"></script>
-              <script type="text/javascript">
-                var options = {
-                  valueNames: [ 'name' ]
-                  };
-                var userList = new List('users', options);
-              </script>
 
             </div>
         {{else}}
@@ -78,5 +69,13 @@
 
       </div>
     </div>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js"></script>
+                  <script type="text/javascript">
+                    var options = {
+                      valueNames: [ 'name' ]
+                      };
+                    var userList = new List('users', options);
+                  </script>
   </div>
 </template>
