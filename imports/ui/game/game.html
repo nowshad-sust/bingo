@@ -78,61 +78,54 @@
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-comment"></span> Conversation
                 </div>
-                <div class="panel-body">
+                <div class="panel-body message-scroll" style="max-height:300px;overflow:auto">
                     <ul class="chat">
-                      <li class="center clearfix text-center">
-                          <div class="chat-body clearfix">
-                              <div class="header">
-                                  <strong class="primary-font">Bingo!</strong>
-                              </div>
-                              <p>
-                                  Best of Luck for the game.
-                              </p>
-                          </div>
-                      </li>
                       {{#each entry in thisGame.mainGame.conversation}}
                         {{#if checkUser entry.senderId}}
-                        <li class="left clearfix">
+                        <li class="left clearfix text-left">
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">Me</strong> <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+                                    <strong class="primary-font">Me</strong> <small class="text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
                                 </div>
                                 <p>
-                                    {{entry.message}} <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
+                                    {{entry.message}}
                                 </p>
                             </div>
                         </li>
                         {{else}}
-                        <li class="right clearfix">
+                        <li class="right clearfix text-right">
                             <div class="chat-body clearfix">
                                 <div class="header">
-
-                                    {{#if checkUser thisGame.userId}}
-                                      <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
-                                    {{else}}
-                                      <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
-                                    {{/if}}
+                                  {{#if checkUser thisGame.userId}}
+                                    <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
+                                  {{else}}
+                                    <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
+                                  {{/if}}
+                                  <small class="text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
                                 </div>
                                 <p>
-                                  {{entry.message}} <small class="pull-right text-muted">
-                                      <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
+                                    {{entry.message}}
                                 </p>
                             </div>
                         </li>
+                        <br>
+                        <br>
                         {{/if}}
                         {{/each}}
                     </ul>
                 </div>
-                <div class="footer bottom">
+                <div class="footer bottom fixed">
+                  <form class="message-form">
                     <div class="input-group">
-                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                        <span class="input-group-btn">
-                            <button class="btn btn-warning btn-sm" id="btn-chat">
-                                Send</button>
-                        </span>
+                          <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                          <span class="input-group-btn">
+                              <button class="btn btn-warning btn-sm" id="btn-chat" type="submit">
+                                  Send</button>
+                          </span>
                     </div>
+                  </form>
                 </div>
             </div>
       </div>

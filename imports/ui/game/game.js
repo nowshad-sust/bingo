@@ -63,6 +63,36 @@ Template.game.helpers({
 });
 
 Template.game.events({
+
+	'submit .message-form'(event) {
+			//$('.message-scroll').scrollTop($('.message-scroll')[0].height());
+			// Prevent default browser form submit
+    	event.preventDefault();
+			const target = event.target;
+    	const text = target.message.value;
+
+			var gameId = FlowRouter.getParam('gameId');
+
+			var options = {
+				gameId: gameId,
+				senderId: Meteor.user()._id,
+				message: text
+			};
+
+			Meteor.call('sendMessage',options, function(error, result){
+				if(error){
+					sAlert.error('Error update the index',{timeout:2000});
+				}else{
+					sAlert.success('Message Sent',{timeout:2000});
+				}
+			});
+
+			// Clear form
+    	target.message.value = '';
+			var scrollHeight = $('.message-scroll')[0].scrollHeight + 300;
+			$('.message-scroll').scrollTop(scrollHeight);
+	},
+
 	'click .select-box': function(event){
 
 		if(event.target.attributes.data){

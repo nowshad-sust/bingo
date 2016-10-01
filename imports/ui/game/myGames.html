@@ -28,7 +28,11 @@
                 {{ mainGame.timestamp}}
               </td>
               <td>
-                <a class="btn btn-info" href="/games/{{_id}}">Link</a>
+                {{#if mainGame.result}}
+                <a class="btn btn-default" href="/games/{{_id}}">Watch</a>
+                {{else}}
+                <a class="btn btn-success" href="/games/{{_id}}">Play</a>
+                {{/if}}
               </td>
             </tr>
           {{/each}}
