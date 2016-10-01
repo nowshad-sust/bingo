@@ -45,6 +45,13 @@ Template.users.helpers({
 																				{ $and: [{userId:user._id},{opponentId:userId}]}
 																			],
 																			needsConfirmation: true});
+
+			 this.runningGame = Games.findOne({ $or: [
+																					{ $and: [{userId:userId},{opponentId:user._id}]},
+																					{ $and: [{userId:user._id},{opponentId:userId}]}
+																					],
+																		needsConfirmation: false, response: 'running'});
+
 				this.userStatus = false;
 				if(this.tempGame){
 					if(this.tempGame.userId == userId){
@@ -60,11 +67,11 @@ Template.users.helpers({
 				 this.userDetails = {
 					user: user,
 					game: this.tempGame,
+					runningGame: this.runningGame,
 					userStatus: this.userStatus
 				};
 				this.userList.push(this.userDetails);
 		});
-
 			return this.userList;
 	},
 

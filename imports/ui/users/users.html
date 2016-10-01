@@ -39,7 +39,12 @@
                 {{/if}}
               </span>
                 <span class="btn-group pull-right">
-
+                {{#if user.runningGame }}
+                <p>
+                  {{ user.runningGame._id }}
+                </p>
+                  Game exists<a class="btn btn-xs btn-info" href="games/{{user.runningGame.id}}">Continue Game</a>
+                {{/if}}
                 {{#if isNull userStatus }}
                 <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
                 {{else}}
