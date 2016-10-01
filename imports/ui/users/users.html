@@ -2,13 +2,14 @@
 <template name="users">
   <div class="container">
     <div class="row">
-      <h2>Online Users</h2>
+      <h2>Users</h2>
       <p>
         works to be done:
         #show users who are not playing currently
         #show users with go to existing games button
         #show notifications on games cancellation and acceptance
       </p>
+
       <div class="col-md-6">
         {{#if currentUser}}
         {{#if Template.subscriptionsReady}}
@@ -20,16 +21,25 @@
               </button>
               <hr>
 
-              <ol class="list">
+              <ol class="list list-group">
 
                 {{#each usersList}}
-                <li>
+                <li class="list-group-item">
 
                 {{#if user.username}}
                 <span class="name">{{user.username}}</span>
                 {{else}}
                 <span class="name">{{user.profile.name}}</span>
                 {{/if}}
+                <span>
+                {{#if user.status.online}}
+                  <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i>
+                {{else}}
+                  <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:red;"></i>
+                {{/if}}
+              </span>
+                <span class="btn-group pull-right">
+
                 {{#if isNull userStatus }}
                 <button type="button" id="btn-create" class="btn btn-xs btn-info">start a new game</button>
                 {{else}}
@@ -40,23 +50,22 @@
                   <button type="button" id="btn-decline" class="btn btn-xs btn-danger">Decline request</button>
                   {{/if}}
                 {{/if}}
+              </span>
                   <br>
                 </li>
                 {{/each}}
 
               </ol>
 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js"></script>
+              <script type="text/javascript">
+                var options = {
+                  valueNames: [ 'name' ]
+                  };
+                var userList = new List('users', options);
+              </script>
+
             </div>
-
-
-        	<script src="http://listjs.com/no-cdn/list.js"></script>
-            <script type="text/javascript">
-            var options = {
-              valueNames: [ 'name' ]
-              };
-
-            var userList = new List('users', options);
-            </script>
         {{else}}
           {{>spinner}}
         {{/if}}

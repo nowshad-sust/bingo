@@ -9,8 +9,9 @@ import 'list.js';
 
 Template.users.onCreated(function usersOnCreated() {
 	this.state = new ReactiveDict();
-	Meteor.subscribe('activeUsers');
+	//Meteor.subscribe('activeUsers');
 	Meteor.subscribe('myGames');
+	Meteor.subscribe('allUsers');
 
 });
 
@@ -30,7 +31,12 @@ Template.users.helpers({
 
 	usersList: ()=>{
 			var userId = Meteor.user()._id;
-			var users = Meteor.users.find({ "status.online": true, _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1});
+			var users = Meteor.users.find({ _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1, status:1} );
+
+			if(users.length <= 0) {
+				return null;
+			}
+
 
 			this.userList = [];
 			users.forEach(function(user){
@@ -59,10 +65,7 @@ Template.users.helpers({
 				this.userList.push(this.userDetails);
 		});
 
-		if(this.userList.length > 0) {
 			return this.userList;
-		}
-		return null;
 	},
 
 });
@@ -73,7 +76,14 @@ Template.users.events({
 		var opponentId = this.user._id;
 		var userId = Meteor.user()._id;
 		//create a new game between these two users
-		$response = Meteor.call('createGame',userId,opponentId);
+		$response = Meteor.call('createGame',userId,opponentId, function(error, result){
+			if(error){
+				sAlert.error('Boom! Something went wrong!');
+			}else{
+				FlowRouter.go('mygames');
+				sAlert.success('Game request sent!');
+			}
+		});
 
 	},
 	'click #btn-cancel': function(event){
@@ -102,7 +112,7 @@ Template.users.events({
 		},
 
 	'click #btn-accept': function(event){
-		var gameId = this.game._id;;
+		var gameId = this.game._id;
 		console.log(gameId);
 		//initiate a game here;
 		Meteor.call('acceptGame', gameId, (error, result)=>{
@@ -112,6 +122,7 @@ Template.users.events({
 				console.log("game accepted: " + result);
 				sAlert.success('Game request is accepted!');
 			}
+			FlowRouter.go('games',{gameId: gameId});
 		});
 	},
 

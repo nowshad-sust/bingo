@@ -1,17 +1,18 @@
 <template name="myGames">
 
-  <div class="row">
-    <h2>My Games Log</h2>
+  <div class="row" style="padding-bottom:50px;">
+
     <div class="col-md-6">
+      <h2>My Games Log</h2>
         {{#if currentUser}}
           {{#if Template.subscriptionsReady}}
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Username</th>
+                <th>Opponent</th>
                 <th>Status</th>
-                <th>Date</th>
-                <th>Go to Game</th>
+                <th>Timestamp</th>
+                <th>Game Link</th>
               </tr>
           </thead>
           <tbody>
@@ -33,7 +34,48 @@
           {{/each}}
           </tbody>
         </table>
-        	{{/if}}
+        {{else}}
+          {{> spinner}}
+        {{/if}}
+        {{/if}}
+    </div>
+
+    <div class="col-md-6">
+      <h2>Game requests</h2>
+        {{#if currentUser}}
+          {{#if Template.subscriptionsReady}}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Opponent</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+          {{#each pendingGames}}
+            <tr>
+              <td>
+                {{userStatus.userName}}
+              </td>
+              <td>
+                 {{response}}
+              </td>
+              <td>
+                {{#if userStatus.status }}
+                <button type="button" id="btn-cancel" class="btn btn-xs btn-danger">Cancel request</button>
+                {{else}}
+                <button type="button" id="btn-accept" class="btn btn-xs btn-success">Accept request</button>
+                <button type="button" id="btn-decline" class="btn btn-xs btn-danger">Decline request</button>
+                {{/if}}
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+        {{else}}
+          {{> spinner}}
+        {{/if}}
         {{/if}}
     </div>
   </div>

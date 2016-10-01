@@ -20,6 +20,10 @@ if (Meteor.isServer) {
     return Meteor.users.find({ "status.online": true });
   });
 
+  Meteor.publish("allUsers", function() {
+    return Meteor.users.find({},{username:1,'profile.name':1, status:1});
+  });
+
   Meteor.publish("myGames", function() {
     var userId = this.userId;
 
