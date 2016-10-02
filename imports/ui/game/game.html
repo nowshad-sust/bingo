@@ -98,9 +98,9 @@
                             <div class="chat-body clearfix">
                                 <div class="header">
                                   {{#if checkUser thisGame.userId}}
-                                    <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
-                                  {{else}}
                                     <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
+                                  {{else}}
+                                    <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
                                   {{/if}}
                                   <small class="text-muted">
                                         <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
