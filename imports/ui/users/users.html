@@ -2,7 +2,7 @@
 <template name="users">
   <div class="container">
     <div class="row">
-      <h2>Users</h2>
+      <h3>Select a user to play with</h3>
 
       <div class="col-md-6">
         {{#if currentUser }}
@@ -29,7 +29,7 @@
                   {{#if user.status.online}}
                     <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i>
                   {{else}}
-                    <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:red;"></i>
+                    <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:orange;"></i>
                   {{/if}}
                 </span>
                   <span class="btn-group pull-right">

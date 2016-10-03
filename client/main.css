@@ -3,7 +3,9 @@
 }*/
 body {
     background-image: url("/images/bg1.jpg");
+    http://etc.usf.edu/presentations/backgrounds/grid/grid_03/1228m.gif
     background-repeat: no-repeat;
+    background-attachment: fixed;
     color: white;
     font-family: fantasy;
 }
@@ -18,6 +20,10 @@ div,ol, .panel, input, table, .list-group-item{
 }
 .game-table {
   color: black;
+}
+a:hover, td:hover {
+    cursor: pointer;
+    cursor: hand;
 }
 
 a{

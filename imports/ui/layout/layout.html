@@ -26,13 +26,13 @@
                     </li>
                     {{#if currentUser }}
                     <li class="{{ checkCurrentRoute 'users'}}">
-                        <a href="/users">Users</a>
+                        <a href="/users">Play</a>
                     </li>
                     <li class="{{ checkCurrentRoute 'mygames'}}">
                         <a href="/mygames">Games</a>
                     </li>
                     {{/if}}
-                    <li class="active">
+                    <li>
                         <a>{{> loginButtons}}</a>
                     </li>
                 </ul>
@@ -53,13 +53,15 @@
         </div>
       </div>
 
+      <br><br><br>
+
       <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
           <div >
             <p class="text-muted">
             <span>
               <h5 class="pull-left">Made with  <img height="15px;" src="/images/smily.png" alt="" /> </h5>
-              <h5 class="pull-right"><a class='text-danger' target="_blank" href="https://github.com/nowshad-sust/bingo">Github</a></h5>
+              <h4 class="pull-right"><a target="_blank" href="https://github.com/nowshad-sust/bingo"><i class="fa fa-github fa-fw"></i> Github</a></h4>
             </span>
 
             </p>
