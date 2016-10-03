@@ -41,7 +41,7 @@
               {{{ifCheck @index}}}
               {{#if entry.selected}}
                 <td class="select-box"
-                    style="background-color:green;"
+                    style="background-color:green;color:white;"
                     data="{{ thisGame.mainGame.turn }}"
                     index="{{ @index }}"
                     status=true>{{entry.number}}</td>
@@ -59,7 +59,7 @@
                 {{{ifCheck @index}}}
                 {{#if entry.selected}}
                 <td class="select-box"
-                    style="background-color:green;"
+                    style="background-color:green;color:white;"
                     data="{{ thisGame.mainGame.turn }}"
                     index="{{ @index }}"
                     status=true>{{entry.number}}</td>
@@ -133,6 +133,8 @@
         {{> spinner}}
       {{/if}}
       {{/if}}
+      {{else}}
+        <h2>Please Login</h2>
       {{/if}}
   </div>
 </div>

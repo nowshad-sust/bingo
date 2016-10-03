@@ -1,0 +1,33 @@
+/*body {
+    background-color: lightblue;
+}*/
+body {
+    background-image: url("/images/bg1.jpg");
+    background-repeat: no-repeat;
+    color: white;
+    font-family: fantasy;
+}
+
+#login-options{
+  text-decoration: none;
+  color: red;
+}
+
+div,ol, .panel, input, table, .list-group-item{
+  background-color: transparent;
+}
+.game-table {
+  color: black;
+}
+
+a{
+  text-decoration: none;
+}
+
+li{
+  list-style: none;
+}
+
+.navbar-inverse, .navbar-default {
+  background-color: rgba(0, 0, 0, 0.40);
+}

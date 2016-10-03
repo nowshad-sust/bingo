@@ -13,13 +13,13 @@
   width: 50px;
   height: 50px;
   border: 2px solid black;
+  line-height: 50px;
   text-align: center;
   background-color: #f2f2f2;
 }
+.chat-window {
+  background-color: rgba(0, 0, 0, 0.50);
+}
 #chat-window {
   max-height: 500px;
-}
-
-li {
-  list-style: none;
 }
