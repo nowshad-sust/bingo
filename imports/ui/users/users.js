@@ -13,6 +13,10 @@ Template.users.onCreated(function usersOnCreated() {
 	Meteor.subscribe('myGames');
 	Meteor.subscribe('allUsers');
 
+	var options = {
+		valueNames: [ 'name' ]
+		};
+	var userList = new List('users', options);
 });
 
 Template.users.helpers({

@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 export const Games = new Mongo.Collection('games');
+export const Quotes = new Mongo.Collection('quotes');
 
 if (Meteor.isServer) {
 

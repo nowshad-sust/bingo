@@ -9,6 +9,7 @@
         {{#if Template.subscriptionsReady }}
             <div id="users">
               <input class="search form-control" placeholder="Search by username" autocomplete="on" autofocus/>
+              <small>if the search is not working then just change the current menu and come back to 'play' again.</small>
               <br>
               <button class="sort btn btn-default pull-right" data-sort="name">
                 Sort by name
@@ -65,13 +66,14 @@
 
       </div>
     </div>
-
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js"></script>
-                  <script type="text/javascript">
-                    var options = {
-                      valueNames: [ 'name' ]
-                      };
-                    var userList = new List('users', options);
-                  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.2.0/list.js"></script>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+      var options = {
+        valueNames: [ 'name' ]
+      };
+        var userList = new List('users', options);
+      });
+    </script>
   </div>
 </template>

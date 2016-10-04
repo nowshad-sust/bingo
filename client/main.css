@@ -7,7 +7,11 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: white;
-    font-family: fantasy;
+    font-family: sans-serif;;
+}
+
+.navbar {
+  font-size: 20px;
 }
 
 #login-options{
