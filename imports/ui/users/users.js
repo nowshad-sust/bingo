@@ -35,7 +35,7 @@ Template.users.helpers({
 
 	usersList: ()=>{
 			var userId = Meteor.user()._id;
-			var users = Meteor.users.find({ _id: { $ne: Meteor.user()._id} },{username: 1,'profile.name':1, status:1} );
+			var users = Meteor.users.find({ _id: { $ne: Meteor.user()._id} }, {sort: {'status.online': -1}},{username: 1,'profile.name':1, status:1} );
 
 			if(users.length <= 0) {
 				return null;
