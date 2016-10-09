@@ -2,17 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { sAlert } from 'meteor/juliancwirko:s-alert';
 import { Template } from 'meteor/templating';
 import { Games } from '../../api/tasks.js';
-
+import '../../../public/js/lists.js';
 import './users.html';
-
-import 'list.js';
 
 Template.users.onCreated(function usersOnCreated() {
 	this.state = new ReactiveDict();
 	//Meteor.subscribe('activeUsers');
 	Meteor.subscribe('myGames');
 	Meteor.subscribe('allUsers');
+});
 
+Template.users.onRendered(function() {
 	var options = {
 		valueNames: [ 'name' ]
 		};
@@ -34,6 +34,7 @@ Template.users.helpers({
 	},
 
 	usersList: ()=>{
+
 			var userId = Meteor.user()._id;
 			var users = Meteor.users.find({ _id: { $ne: Meteor.user()._id} }, {sort: {'status.online': -1}},{username: 1,'profile.name':1, status:1} );
 
@@ -75,7 +76,8 @@ Template.users.helpers({
 				};
 				userList.push(userDetails);
 		});
-		console.log(userList);
+
+		//console.log(userList);
 			return userList;
 	},
 
@@ -83,7 +85,7 @@ Template.users.helpers({
 
 Template.users.events({
 
-	'click #btn-create': function(event){
+	'click .btn-create': function(event){
 		var opponentId = this.user._id;
 		var userId = Meteor.user()._id;
 		//create a new game between these two users
@@ -97,7 +99,7 @@ Template.users.events({
 		});
 
 	},
-	'click #btn-cancel': function(event){
+	'click .btn-cancel': function(event){
 		var gameId = this.game._id;
 		//cancel the request
 		Meteor.call('cancelGame', gameId, function(error, result){
@@ -109,7 +111,7 @@ Template.users.events({
 		});
 	},
 
-	'click #btn-decline': function(event){
+	'click .btn-decline': function(event){
 			var gameId = this.game._id;
 			//cancel the request
 			Meteor.call('cancelGame', gameId, (error, result)=>{
@@ -122,9 +124,8 @@ Template.users.events({
 			});
 		},
 
-	'click #btn-accept': function(event){
+	'click .btn-accept': function(event){
 		var gameId = this.game._id;
-		console.log(gameId);
 		//initiate a game here;
 		Meteor.call('acceptGame', gameId, (error, result)=>{
 			if(error){

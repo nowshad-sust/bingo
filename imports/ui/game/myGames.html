@@ -1,6 +1,6 @@
 <template name="myGames">
 
-  <div class="row" style="padding-bottom:50px;">
+  <!-- <div class="row" style="padding-bottom:50px;">
 
     <div class="col-md-6">
       <h2>My Games Log</h2>
@@ -82,6 +82,26 @@
         {{/if}}
         {{/if}}
     </div>
+  </div> -->
+
+  <div class="row">
+    {{#if currentUser}}
+      {{#if Template.subscriptionsReady}}
+    <div class="col-md-6">
+      <h2>My Games Log</h2>
+      {{> reactiveTable class="table" settings=settings}}
+    </div>
+
+    <div class="col-md-6">
+      <h2>Game Requests</h2>
+      {{> reactiveTable class="table" settings=requestSettings}}
+    </div>
+      {{else}}
+      <div class="spinner">
+        {{> spinner}}
+      </div>
+      {{/if}}
+    {{/if}}
   </div>
 
 </template>
