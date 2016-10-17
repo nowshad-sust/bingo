@@ -4,7 +4,7 @@ import '../imports/ui/about/about.js';
 import '../imports/ui/game/myGames.js';
 import '../imports/ui/game/game.js';
 import '../imports/ui/users/users.js';
-
+import '../imports/ui/theme/test.js';
 
 FlowRouter.route('/',{
   name: 'home',
@@ -39,7 +39,4 @@ FlowRouter.route('/games/:gameId',{
   action: function(params, queryParams) {
         BlazeLayout.render('layout', {child:'game'});
     }
-  // action(){
-  //   BlazeLayout.render('layout', {child:'games'});
-  // }
 });

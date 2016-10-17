@@ -1,68 +1,48 @@
 <template name="game">
-<div class="panel">
-  <div class="row text-center">
-    {{#if currentUser}}
-    {{#if Template.subscriptionsReady}}
-    {{#if thisGame }}
-    <div class="col-md-6">
+<div class="container">
+  <div class="panel">
+    <div class="row text-center">
+      {{#if currentUser}}
+      {{#if Template.subscriptionsReady}}
+      {{#if thisGame }}
+      <div class="col-md-6">
 
-    <h3 class="text-center">In Game: {{ thisGame._id }}</h3>
+      <h3 class="text-center">In Game: {{ thisGame._id }}</h3>
 
-    <h4 class="text-center">
-      {{#if thisGame.mainGame.result}}
+      <h4 class="text-center">
+        {{#if thisGame.mainGame.result}}
 
-          {{#if gameWinner.status}}
-          <div class="alert alert-success" role="alert">Game Finished
-            <br>Result:
-              {{ gameWinner.winner }}
-          </div>
-          {{else}}
-          <div class="alert alert-danger" role="alert">Game Finished
-            <br>Result:
-              {{ gameWinner.winner }}
-          </div>
-        <script type="text/javascript" src="https://kennethkufluk.github.io/js-fireworks/canvas?msg=your%20message%20here">
+            {{#if gameWinner.status}}
+            <div class="alert alert-success" role="alert">Game Finished
+              <br>Result:
+                {{ gameWinner.winner }}
+            </div>
+            {{else}}
+            <div class="alert alert-danger" role="alert">Game Finished
+              <br>Result:
+                {{ gameWinner.winner }}
+            </div>
+            {{/if}}
 
-        </script>
-          {{/if}}
-
-      {{else}}
-        {{#if turn thisGame.mainGame.turn}}
-          <div class="alert alert-success" role="alert">Your turn</div>
         {{else}}
-          <div class="alert alert-warning" role="alert">Opponent's turn</div>
+          {{#if turn thisGame.mainGame.turn}}
+            <div class="alert alert-success" role="alert">Your turn</div>
+          {{else}}
+            <div class="alert alert-warning" role="alert">Opponent's turn</div>
+          {{/if}}
         {{/if}}
-      {{/if}}
-    </h4>
+      </h4>
 
-    {{#if checkUser thisGame.userId}}
-          <table class="game-table" id="game-table">
-            {{#each entry in thisGame.mainGame.userBoard}}
-              {{{ifCheck @index}}}
-              {{#if entry.selected}}
-                <td class="select-box"
-                    style="background-color:green;color:white;"
-                    data="{{ thisGame.mainGame.turn }}"
-                    index="{{ @index }}"
-                    status=true>{{entry.number}}</td>
-              {{else}}
-                <td class="select-box"
-                    data="{{ thisGame.mainGame.turn }}"
-                    index="{{ @index }}"
-                    status=false>{{entry.number}}</td>
-              {{/if}}
-            {{/each}}
-          </table>
-      {{else}}
-          <table class="game-table" id="game-table">
-              {{#each entry in thisGame.mainGame.opponentBoard}}
+      {{#if checkUser thisGame.userId}}
+            <table class="game-table" id="game-table">
+              {{#each entry in thisGame.mainGame.userBoard}}
                 {{{ifCheck @index}}}
                 {{#if entry.selected}}
-                <td class="select-box"
-                    style="background-color:green;color:white;"
-                    data="{{ thisGame.mainGame.turn }}"
-                    index="{{ @index }}"
-                    status=true>{{entry.number}}</td>
+                  <td class="select-box"
+                      style="background-color:green;color:white;"
+                      data="{{ thisGame.mainGame.turn }}"
+                      index="{{ @index }}"
+                      status=true>{{entry.number}}</td>
                 {{else}}
                   <td class="select-box"
                       data="{{ thisGame.mainGame.turn }}"
@@ -71,71 +51,92 @@
                 {{/if}}
               {{/each}}
             </table>
-      {{/if}}
-    </div>
-    <div class="col-md-6">
-            <div class="panel panel-primary chat-window">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-comment"></span> Conversation
-                </div>
-                <div class="panel-body message-scroll" style="max-height:300px;overflow:auto">
-                    <ul class="chat">
-                      {{#each entry in thisGame.mainGame.conversation}}
-                        {{#if checkUser entry.senderId}}
-                        <li class="left clearfix text-left">
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Me</strong> <small class="text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
-                                </div>
-                                <p>
-                                    {{entry.message}}
-                                </p>
-                            </div>
-                        </li>
-                        {{else}}
-                        <li class="right clearfix text-right">
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                  {{#if checkUser thisGame.userId}}
-                                    <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
-                                  {{else}}
-                                    <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
-                                  {{/if}}
-                                  <small class="text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
-                                </div>
-                                <p>
-                                    {{entry.message}}
-                                </p>
-                            </div>
-                        </li>
-                        <br>
-                        <br>
-                        {{/if}}
-                        {{/each}}
-                    </ul>
-                </div>
-                <div class="footer bottom fixed">
-                  <form class="message-form">
-                    <div class="input-group">
-                          <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                          <span class="input-group-btn">
-                              <button class="btn btn-warning btn-sm" id="btn-chat" type="submit">
-                                  Send</button>
-                          </span>
-                    </div>
-                  </form>
-                </div>
-            </div>
+        {{else}}
+            <table class="game-table" id="game-table">
+                {{#each entry in thisGame.mainGame.opponentBoard}}
+                  {{{ifCheck @index}}}
+                  {{#if entry.selected}}
+                  <td class="select-box"
+                      style="background-color:green;color:white;"
+                      data="{{ thisGame.mainGame.turn }}"
+                      index="{{ @index }}"
+                      status=true>{{entry.number}}</td>
+                  {{else}}
+                    <td class="select-box"
+                        data="{{ thisGame.mainGame.turn }}"
+                        index="{{ @index }}"
+                        status=false>{{entry.number}}</td>
+                  {{/if}}
+                {{/each}}
+              </table>
+        {{/if}}
       </div>
-      {{else}}
-        {{> spinner}}
-      {{/if}}
-      {{/if}}
-      {{else}}
-        <h2>Please Login</h2>
-      {{/if}}
+      <br>
+      <div class="col-md-6">
+              <div class="panel panel-primary chat-window">
+                  <div class="panel-heading">
+                      <span class="glyphicon glyphicon-comment"></span> Conversation
+                  </div>
+                  <div class="panel-body message-scroll" style="max-height:300px;overflow:auto">
+                      <ul class="chat">
+                        {{#each entry in thisGame.mainGame.conversation}}
+                          {{#if checkUser entry.senderId}}
+                          <li class="left clearfix text-left">
+                              <div class="chat-body clearfix">
+                                  <div class="header">
+                                      <strong class="primary-font">Me</strong> <small class="text-muted">
+                                          <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
+                                  </div>
+                                  <p>
+                                      {{entry.message}}
+                                  </p>
+                              </div>
+                          </li>
+                          {{else}}
+                          <li class="right clearfix text-right">
+                              <div class="chat-body clearfix">
+                                  <div class="header">
+                                    {{#if checkUser thisGame.userId}}
+                                      <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
+                                    {{else}}
+                                      <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
+                                    {{/if}}
+                                    <small class="text-muted">
+                                          <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
+                                  </div>
+                                  <p>
+                                      {{entry.message}}
+                                  </p>
+                              </div>
+                          </li>
+                          <br>
+                          <br>
+                          {{/if}}
+                          {{/each}}
+                      </ul>
+                  </div>
+                  <div class="footer bottom fixed">
+                    <form class="message-form">
+                      <div class="input-group">
+                            <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning btn-sm" id="btn-chat" type="submit">
+                                    Send</button>
+                            </span>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+        </div>
+        {{else}}
+          {{> spinner}}
+        {{/if}}
+        {{/if}}
+        {{else}}
+          <h2>Please Login</h2>
+        {{/if}}
+    </div>
   </div>
 </div>
+<br>
 </template>

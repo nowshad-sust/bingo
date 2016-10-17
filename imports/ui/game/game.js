@@ -14,6 +14,7 @@ Template.game.onCreated(function gameOnCreated() {
 	Meteor.subscribe('thisGame', gameId);
 });
 
+
 gameId = FlowRouter.getParam('gameId');
 game = Games.findOne({_id:gameId});
 

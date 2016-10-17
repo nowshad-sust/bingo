@@ -1,5 +1,4 @@
 import '../imports/startup/accounts-config.js';
-import '../imports/ui/body.js';
 import { sAlert } from 'meteor/juliancwirko:s-alert';
 Meteor.startup(function () {
 

@@ -1,0 +1,39 @@
+<template name="nav">
+  <header id="fh5co-header" role="banner">
+		<div class="container">
+			<div class="header-inner">
+				<h1>
+          <a href="/">
+                    <span>
+                    <i class="fa fa-th {{ checkCurrentRoute 'home'}}" aria-hidden="true"></i>
+                      Bingo! <span class="text-muted"><sub style="font-size:10px;">Beta</sub></span>
+                    </span>
+                  </a>
+        </h1>
+				<nav role="navigation">
+              <ul>
+                <li>
+                    <a  class="{{ checkCurrentRoute 'home'}}" href="/">Home</a>
+                </li>
+
+                <li>
+                        <a  class="{{ checkCurrentRoute 'about'}}" href="/about">About</a>
+                </li>
+                    {{#if currentUser }}
+                    <li>
+                        <a class="{{ checkCurrentRoute 'users'}}" href="/users">Play</a>
+                    </li>
+                    <li>
+                        <a class="{{ checkCurrentRoute 'mygames'}}" href="/mygames">Games</a>
+                    </li>
+                    {{/if}}
+                    <li>
+                        <a>{{> loginButtons}}</a>
+                    </li>
+                </ul>
+
+				</nav>
+			</div>
+		</div>
+	</header>
+</template>
