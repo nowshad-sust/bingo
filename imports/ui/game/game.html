@@ -1,9 +1,6 @@
 <template name="game">
-  <br>
-  <br>
-  <br>
+<div id="fh5co-services-section">
 <div class="container">
-  <div class="panel">
     <div class="row text-center">
       {{#if currentUser}}
       {{#if Template.subscriptionsReady}}
@@ -11,7 +8,16 @@
       <div class="col-md-6">
 
       <h3 class="text-center">In Game: {{ thisGame._id }}</h3>
-
+      <h4>{{#if checkUser thisGame.userId}}
+        <strong>You</strong>
+        vs
+        <strong>{{thisGame.opponentName}}</strong>
+      {{else}}
+        <strong>You</strong>
+        vs
+        <strong>{{thisGame.userName}}</strong>
+      {{/if}}
+      </h4>
       <h4 class="text-center">
         {{#if thisGame.mainGame.result}}
 
@@ -75,62 +81,97 @@
         {{/if}}
       </div>
       <br>
-      <div class="col-md-6">
-              <div class="panel panel-primary chat-window">
-                  <div class="panel-heading">
-                      <span class="glyphicon glyphicon-comment"></span> Conversation
-                  </div>
-                  <div class="panel-body message-scroll" style="max-height:300px;overflow:auto">
-                      <ul class="chat">
-                        {{#each entry in thisGame.mainGame.conversation}}
-                          {{#if checkUser entry.senderId}}
-                          <li class="left clearfix text-left">
-                              <div class="chat-body clearfix">
-                                  <div class="header">
-                                      <strong class="primary-font">Me</strong> <small class="text-muted">
-                                          <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
-                                  </div>
-                                  <p>
-                                      {{entry.message}}
-                                  </p>
-                              </div>
-                          </li>
+        <div class="col-md-5">
+
+            <div class="portlet portlet-default">
+                <div class="portlet-heading">
+                    <div class="portlet-title">
+                        <h4 style="color:white;"><i class="fa fa-user"></i>
+                          {{#if checkUser thisGame.userId}}
+                            <strong>{{thisGame.opponentName}}</strong>
                           {{else}}
-                          <li class="right clearfix text-right">
-                              <div class="chat-body clearfix">
-                                  <div class="header">
-                                    {{#if checkUser thisGame.userId}}
-                                      <strong class="pull-right primary-font">{{thisGame.opponentName}}</strong>
-                                    {{else}}
-                                      <strong class="pull-right primary-font">{{thisGame.userName}}</strong>
-                                    {{/if}}
-                                    <small class="text-muted">
-                                          <span class="glyphicon glyphicon-time"></span>{{entry.timestamp}}</small>
-                                  </div>
-                                  <p>
-                                      {{entry.message}}
-                                  </p>
-                              </div>
-                          </li>
-                          <br>
-                          <br>
+                            <strong>{{thisGame.userName}}</strong>
                           {{/if}}
-                          {{/each}}
-                      </ul>
-                  </div>
-                  <div class="footer bottom fixed">
-                    <form class="message-form">
-                      <div class="input-group">
-                            <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                            <span class="input-group-btn">
-                                <button class="btn btn-warning btn-sm" id="btn-chat" type="submit">
-                                    Send</button>
-                            </span>
-                      </div>
-                    </form>
-                  </div>
-              </div>
-        </div>
+                        </h4>
+                    </div>
+                    <div class="portlet-widgets">
+                        <span class="divider"></span>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#chat"><i class="fa fa-chevron-down"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div id="chat" class="panel-collapse collapse in">
+                    <div>
+                    <div class="portlet-body chat-widget" style="overflow-y: auto; width: auto; height: 300px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p class="text-center text-muted small">
+                                  game started: {{ formatTime thisGame.mainGame.timestamp }}
+                                  <hr>
+                                </p>
+                            </div>
+                        </div>
+                        {{#each entry in (sortMessages thisGame.mainGame.conversation) }}
+                        {{#if checkUser entry.senderId}}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="media">
+                                    <span class="pull-left" href="#">
+                                        <strong>Me</strong>
+                                    </span>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <span class="small pull-right">{{ formatTime entry.timestamp }}</span>
+                                        </h4>
+                                        <p class="text-left">
+                                          {{entry.message}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{else}}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="media">
+                                    <span class="pull-left" href="#">
+                                      {{#if checkUser thisGame.userId}}
+                                        <strong>{{thisGame.opponentName}}</strong>
+                                      {{else}}
+                                        <strong>{{thisGame.userName}}</strong>
+                                      {{/if}}
+                                    </span>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <span class="small pull-right">{{ formatTime entry.timestamp }}</span>
+                                        </h4>
+                                        <p class="text-left">
+                                          {{entry.message}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <hr>
+                        {{/each}}
+
+                    </div>
+                    </div>
+                    <div class="portlet-footer">
+                        <form class="message-form">
+                            <div class="form-group">
+                                <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here...">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-default pull-right" id="btn-chat" type="submit" >Send</button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
         {{else}}
           {{> spinner}}
         {{/if}}
@@ -141,5 +182,4 @@
     </div>
   </div>
 </div>
-<br>
 </template>

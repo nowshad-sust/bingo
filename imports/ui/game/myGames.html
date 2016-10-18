@@ -14,7 +14,9 @@
 
       <div class="col-md-6">
         <h2>Game Requests</h2>
-        {{> reactiveTable class="table" settings=requestSettings}}
+        <div class='react-table-special'>
+          {{> reactiveTable class="table" settings=requestSettings}}
+        </div>
       </div>
         {{else}}
         <div class="spinner">

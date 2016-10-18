@@ -24,6 +24,15 @@ Template.game.helpers({
 		var game = Games.findOne({_id:gameId});
 		return game;
 	},
+	formatTime: function(timestamp){
+		return moment(timestamp).fromNow();
+	},
+	sortMessages: function(messages){
+		return messages.sort(function(x, y){
+	    return y.timestamp - x.timestamp;
+		});
+
+	},
 	gameWinner: function(){
 		var gameId = FlowRouter.getParam('gameId');
 		var game = Games.findOne({_id:gameId});
@@ -82,16 +91,14 @@ Template.game.events({
 
 			Meteor.call('sendMessage',options, function(error, result){
 				if(error){
-					sAlert.error('Error update the index',{timeout:2000});
+					sAlert.error('Error update the index',{timeout:2000,position: 'bottom-left'});
 				}else{
-					sAlert.success('Message Sent',{timeout:2000});
+					sAlert.success('Message Sent',{timeout:2000,position: 'bottom-left'});
 				}
 			});
 
 			// Clear form
     	target.message.value = '';
-			var scrollHeight = $('.message-scroll')[0].scrollHeight + 300;
-			$('.message-scroll').scrollTop(scrollHeight);
 	},
 
 	'click .select-box': function(event){
@@ -104,28 +111,28 @@ Template.game.events({
 				if(turn == Meteor.user()._id){
 					var status = event.target.attributes.status.value;
 					if(status == "true"){
-						sAlert.warning('Already selected this box!',{timeout:2000});
+						sAlert.warning('Already selected this box!',{timeout:2000,position: 'bottom-left'});
 					}else{
 						var index = event.target.attributes.index.value;
 						//console.log(index);
 						var gameId = FlowRouter.getParam('gameId');
 						Meteor.call('indexSelected', index, gameId, (error, result)=>{
 							if(error){
-								sAlert.error('Error update the index',{timeout:2000});
+								sAlert.error('Error update the index',{timeout:2000,position: 'bottom-left'});
 							}else{
-								sAlert.success('index selected',{timeout:2000});
+								sAlert.success('selected',{timeout:2000,position: 'bottom-left'});
 							}
 						});
 						checkFinished();
 					}
 				}else{
-					sAlert.warning('Please wait for opponents response first!',{timeout:2000});
+					sAlert.warning('Please wait for opponents response first!',{timeout:2000,position: 'bottom-left'});
 				}
 			}else{
-				sAlert.success('Game Already Finished!',{timeout:2000});
+				sAlert.success('Game Already Finished!',{timeout:2000,position: 'bottom-left'});
 			}
 		}else{
-			sAlert.success('Game Already Finished!',{timeout:2000});
+			sAlert.success('Game Already Finished!',{timeout:2000,position: 'bottom-left'});
 		}
 
 	}
