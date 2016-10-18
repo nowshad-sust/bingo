@@ -1,39 +1,48 @@
 <template name="nav">
-  <header id="fh5co-header" role="banner">
-		<div class="container">
-			<div class="header-inner">
-				<h1>
-          <a href="/">
-                    <span>
-                    <i class="fa fa-th {{ checkCurrentRoute 'home'}}" aria-hidden="true"></i>
-                      Bingo! <span class="text-muted"><sub style="font-size:10px;">Beta</sub></span>
-                    </span>
-                  </a>
-        </h1>
-				<nav role="navigation">
-              <ul>
-                <li>
-                    <a  class="{{ checkCurrentRoute 'home'}}" href="/">Home</a>
-                </li>
 
-                <li>
-                        <a  class="{{ checkCurrentRoute 'about'}}" href="/about">About</a>
-                </li>
-                    {{#if currentUser }}
-                    <li>
-                        <a class="{{ checkCurrentRoute 'users'}}" href="/users">Play</a>
-                    </li>
-                    <li>
-                        <a class="{{ checkCurrentRoute 'mygames'}}" href="/mygames">Games</a>
-                    </li>
-                    {{/if}}
-                    <li>
-                        <a>{{> loginButtons}}</a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+         <!-- Brand and toggle get grouped for better mobile display -->
+         <div class="navbar-header">
+             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                 <span class="sr-only">Toggle navigation</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+             </button>
+             <a class="navbar-brand active text-center" href="/">
+               <span>
+                 <img src="/images/icon.gif" height="30px" alt="" />
+                 Bingo! <span class="text-muted"><sub style="font-size:10px;">Beta</sub></span>
+               </span>
+             </a>
+         </div>
+         <!-- Collect the nav links, forms, and other content for toggling -->
+         <div class="collapse navbar-collapse">
+             <ul class="nav navbar-nav">
 
-				</nav>
-			</div>
-		</div>
-	</header>
+               <li>
+                   <a  class="{{ checkCurrentRoute 'home'}}" href="/"> Home</a>
+               </li>
+
+                 <li>
+                     <a  class="{{ checkCurrentRoute 'about'}}" href="/about">Learn</a>
+                 </li>
+                 {{#if currentUser }}
+                 <li>
+                     <a class="{{ checkCurrentRoute 'users'}}" href="/users">Find Players</a>
+                 </li>
+                 <li>
+                     <a  class="{{ checkCurrentRoute 'mygames'}}" href="/mygames">Games</a>
+                 </li>
+                 {{/if}}
+                 <li>
+                     <a>{{> loginButtons}}</a>
+                 </li>
+             </ul>
+         </div>
+         <!-- /.navbar-collapse -->
+     </div>
+     <!-- /.container -->
+      </nav>
 </template>

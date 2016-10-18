@@ -1094,6 +1094,10 @@ h1, h2, h3, h4, h5, h6, figure {
   display: none;
 }
 
+.navbar {
+  max-width: 100%;
+}
+/*
 .fh5co-nav-toggle {
   cursor: pointer;
   text-decoration: none;
@@ -1194,7 +1198,7 @@ h1, h2, h3, h4, h5, h6, figure {
   margin: 0 auto;
   display: none;
   cursor: pointer;
-}
+}*/
 @media screen and (max-width: 768px) {
   .fh5co-nav-toggle {
     display: block;
@@ -1207,3 +1211,16 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+/*=-=-=-=-=-==-  Media Query for Sign up Modal  =-=-=-=-==--=-==-=-*/
+
+@@media (max-width: 767px) {
+  #login-dropdown-list {
+    position: absolute;
+    top: 470%;
+    left: -160%;
+    width: 289px;
+  }
+}

@@ -40,3 +40,9 @@ FlowRouter.route('/games/:gameId',{
         BlazeLayout.render('layout', {child:'game'});
     }
 });
+
+function checkLogin() {
+  if(!Meteor.user()){
+    FlowRouter.go("/");
+  }
+}

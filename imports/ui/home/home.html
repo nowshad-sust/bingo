@@ -1,5 +1,5 @@
 <template name="home">
-
+  
     <div id="fh5co-services-section">
   		<div class="container">
   			<div class="row">
@@ -8,7 +8,14 @@
   					<p>A Turn Based Board Game. </p>
             <a target="_blank" href="https://github.com/nowshad-sust/bingo" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
             <hr>
-              <span id="quote" style="color:white;"></span>
+            <br>
+            <div class="testimony">
+						<span class="quote"><i class="icon-quote-right"></i></span>
+  						<blockquote>
+  							<span id="quote"></span>
+  						</blockquote>
+					  </div>
+
   				</div>
   			</div>
   		</div>
@@ -16,11 +23,10 @@
 
       <script type="text/javascript">
       $(document).ready(function(){
-
-          $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&callback=", function(a) {
-              $("#quote").append(a[0].content + a[0].title);
-          });
-
+        $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1", function(data){
+            $("#quote").append(data[0].content + "<br>" + data[0].title);
+        });
       });
       </script>
+
 </template>
