@@ -2,25 +2,31 @@ import { Meteor } from 'meteor/meteor';
 import { sAlert } from 'meteor/juliancwirko:s-alert';
 import { Template } from 'meteor/templating';
 import { Games } from '../../api/tasks.js';
-import '../../../public/js/lists.js';
+
 import './users.html';
+
+// import '../../../public/css/datatables.min.css';
+// import '../../../public/js/datatables.min.js';
+
 
 Template.users.onCreated(function usersOnCreated() {
 	this.state = new ReactiveDict();
 	//Meteor.subscribe('activeUsers');
 	Meteor.subscribe('myGames');
 	Meteor.subscribe('allUsers');
+
 });
 
+
+
 Template.users.onRendered(function() {
-	var options = {
-		valueNames: [ 'name' ]
-		};
-	var userList = new List('users', options);
+		$('#myTable').dataTable( {
+					saveState: true,
+					aaSorting: []
+			});
 });
 
 Template.users.helpers({
-
 	serial: (index)=>{
 			return (index+1);
 	},

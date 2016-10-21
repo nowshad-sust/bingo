@@ -11,6 +11,10 @@ Template.myGames.onCreated(function gameOnCreated() {
 	Meteor.subscribe('myGames');
 });
 
+Template.myGames.onRendered(function gameOnCreated() {
+	
+});
+
 
 Template.myGames.helpers({
 	requestSettings: function () {

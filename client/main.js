@@ -1,6 +1,7 @@
 import '../imports/startup/accounts-config.js';
 import '../imports/startup/loginTracker.js';
 import { sAlert } from 'meteor/juliancwirko:s-alert';
+
 Meteor.startup(function () {
 
     sAlert.config({

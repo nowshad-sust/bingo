@@ -2,11 +2,16 @@
   border: 2px solid black;
   font-size: 25px;
   margin: auto;
+  align-self: center;
 }
 
 .column-success td{
   background-color: red;
   color: red;
+}
+
+.result-image{
+  max-width: 80%;
 }
 
 .game-table td {
@@ -191,4 +196,4 @@
 
 .text-red {
     color: #e74c3c;
-}                
+}

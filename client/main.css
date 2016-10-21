@@ -1,7 +1,4 @@
 .reactive-table-navigation .form-inline input {
-    color: black;
-}
-
-.form-inline input {
-  color: black;
+    overflow: hidden !important;
+    min-width: 70px;
 }

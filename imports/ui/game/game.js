@@ -38,11 +38,11 @@ Template.game.helpers({
 		var game = Games.findOne({_id:gameId});
 		//check the is finished or not
 		if(game.mainGame.result == Meteor.user()._id){
-			return {status:true,winner:'You Won'};
+			return {status:true,winner:"You Won <br> <img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>"};
 		}else if(game.mainGame.result == 'draw'){
-			return {status:false,winner:'Game Drawn!'};
+			return {status:false,winner:"Game Drawn! <br> <img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>"};
 		}else{
-			return {status:false,winner:'Opponent Won!'};
+			return {status:false,winner:"Opponent Won! <br> <img class='result-image' src='https://media2.giphy.com/media/mcH0upG1TeEak/100.gif'>"};
 		}
 	},
 	turn: function(turn){
@@ -80,25 +80,26 @@ Template.game.events({
     	event.preventDefault();
 			const target = event.target;
     	const text = target.message.value;
+			if(text != null && text != ''){
+				var gameId = FlowRouter.getParam('gameId');
 
-			var gameId = FlowRouter.getParam('gameId');
+				var options = {
+					gameId: gameId,
+					senderId: Meteor.user()._id,
+					message: text
+				};
 
-			var options = {
-				gameId: gameId,
-				senderId: Meteor.user()._id,
-				message: text
-			};
+				Meteor.call('sendMessage',options, function(error, result){
+					if(error){
+						sAlert.error('Error update the index',{timeout:2000,position: 'bottom-left'});
+					}else{
+						sAlert.success('Message Sent',{timeout:2000,position: 'bottom-left'});
+					}
+				});
 
-			Meteor.call('sendMessage',options, function(error, result){
-				if(error){
-					sAlert.error('Error update the index',{timeout:2000,position: 'bottom-left'});
-				}else{
-					sAlert.success('Message Sent',{timeout:2000,position: 'bottom-left'});
-				}
-			});
-
-			// Clear form
-    	target.message.value = '';
+				// Clear form
+				target.message.value = '';
+			}
 	},
 
 	'click .select-box': function(event){
@@ -123,7 +124,19 @@ Template.game.events({
 								sAlert.success('selected',{timeout:2000,position: 'bottom-left'});
 							}
 						});
-						checkFinished();
+						var finished = checkFinished();
+						// if(finished){
+						// 	//check whats the result
+						// 	var finishedGame = Games.findOne({_id:game._id})
+						// 	console.log("result: " + finishedGame.mainGame.result);
+						// 	if(finishedGame.mainGame.result == Meteor.user()._id){
+						// 		sAlert.info("<h1>Congratulations! You Won </h1><br<img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>",{timeout:10000,position: 'bottom'});
+						// 	}else if(finishedGame.mainGame.result == "draw"){
+						// 		sAlert.info("<h1>Game Drawn! </h1><br><img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>",{timeout:10000,position: 'bottom'});
+						// 	}else{
+						// 		sAlert.info("<h1>You're A Looser </h1><br><img class='result-image' src='https://media2.giphy.com/media/mcH0upG1TeEak/100.gif'>",{timeout:10000,position: 'bottom'});
+						// 	}
+						// }
 					}
 				}else{
 					sAlert.warning('Please wait for opponents response first!',{timeout:2000,position: 'bottom-left'});

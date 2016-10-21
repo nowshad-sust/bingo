@@ -3,6 +3,7 @@ import '../imports/ui/home/home.js';
 import '../imports/ui/about/about.js';
 import '../imports/ui/game/myGames.js';
 import '../imports/ui/game/game.js';
+import '../imports/ui/game/toss.js';
 import '../imports/ui/users/users.js';
 import '../imports/ui/theme/test.js';
 
@@ -41,8 +42,9 @@ FlowRouter.route('/games/:gameId',{
     }
 });
 
-function checkLogin() {
-  if(!Meteor.user()){
-    FlowRouter.go("/");
+FlowRouter.route('/toss',{
+  name: 'toss',
+  action(){
+    BlazeLayout.render('layout', {child:'toss'});
   }
-}
+});

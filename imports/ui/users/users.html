@@ -1,61 +1,67 @@
 <template name="users">
+
   <div class="container">
     <br>
     <div class="row fh5co-heading">
-      <div class="col-md-6">
+      <div class="col-md-8">
         {{#if currentUser }}
             <div id="users">
+              <br>
+              <br>
               <div class="panel">
                 <h3>Select a user to play with</h3>
-                <input class="search form-control" placeholder="Search by username" autofocus/>
-                <small class="text-default">if the search is not working then just change the current menu tab and come back to this tab again.</small>
-
-                <br>
-                <button class="sort btn btn-default" data-sort="name">
-                  Sort by name
-                </button>
               </div>
-              <hr>
               {{#if Template.subscriptionsReady }}
-              <ol class="list list-group">
-
-                {{#each usersList}}
-                <li class="list-group-item">
-
-                  {{#if user.username }}
-                  <span class="name">{{user.username}}</span>
-                  {{else}}
-                  <span class="name">{{user.profile.name}}</span>
-                  {{/if}}
-                  <span>
-                  {{#if user.status.online}}
-                    <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i>
-                  {{else}}
-                    <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:orange;"></i>
-                  {{/if}}
-                </span>
-                  <span class="btn-group pull-right">
-
-                  {{#if runningGame}}
-                    <a class="btn btn-xs btn-default" href="games/{{ runningGame._id }}">Continue</a>
-                  {{else}}
-                    {{#if isNull userStatus }}
-                    <button type="button" class="btn-create btn btn-xs btn-info">Invite</button>
-                    {{else}}
-                      {{#if userStatus }}
-                      <button type="button" class="btn-cancel btn btn-xs btn-danger">Cancel</button>
+              <div class="row">
+                <table id="myTable" class="table display compact">
+                  <thead>
+                    <tr>
+                    <th>Username</th>
+                    <th>Status</th>
+                    <th>Games</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each usersList }}
+                    <tr>
+                    <td>
+                      {{#if user.username }}
+                      <span class="name">{{user.username}}</span>
                       {{else}}
-                      <button type="button" class="btn-accept btn btn-xs btn-success">Accept</button>
-                      <button type="button" class="btn-decline btn btn-xs btn-danger">Decline</button>
+                      <span class="name">{{user.profile.name}}</span>
                       {{/if}}
-                    {{/if}}
-                  {{/if}}
-                </span>
-                    <br>
-                  </li>
-                {{/each}}
+                    </td>
+                    <td>
+                      {{#if user.status.online}}
+                        <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i> Online
+                      {{else}}
+                        <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:orange;"></i> Offline
+                      {{/if}}
+                    </td>
+                    <td>
+                      <span class="btn-group">
 
-              </ol>
+                      {{#if runningGame}}
+                        <a class="btn btn-xs btn-default" href="games/{{ runningGame._id }}">Continue</a>
+                      {{else}}
+                        {{#if isNull userStatus }}
+                        <button type="button" class="btn-create btn btn-xs btn-info">Invite</button>
+                        {{else}}
+                          {{#if userStatus }}
+                          <button type="button" class="btn-cancel btn btn-xs btn-danger">Cancel</button>
+                          {{else}}
+                          <button type="button" class="btn-accept btn btn-xs btn-success">Accept</button>
+                          <button type="button" class="btn-decline btn btn-xs btn-danger">Decline</button>
+                          {{/if}}
+                        {{/if}}
+                      {{/if}}
+                    </span>
+                    </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                  </table>
+              </div>
               {{else}}
                 <div class="spinner text-warning">
                     {{>spinner}}
