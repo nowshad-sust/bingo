@@ -1,0 +1,28 @@
+<template name="adminContact">
+<div class="container">
+  {{> adminNav}}
+  <h1>ADMIN CONTACTS</h1>
+<div class="col-md-6">
+  <table class="table table-stripped">
+    <thead>
+      <tr>
+        <th>Details</th>
+        <th>Date Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each getContacts}}
+        <tr>
+          <td>
+            {{name}}-{{email}}
+            <br>
+            {{message}}
+          </td>
+          <td>{{ timestamp }}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </div>
+  </div>
+</template>

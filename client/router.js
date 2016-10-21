@@ -5,7 +5,9 @@ import '../imports/ui/game/myGames.js';
 import '../imports/ui/game/game.js';
 import '../imports/ui/game/toss.js';
 import '../imports/ui/users/users.js';
-import '../imports/ui/theme/test.js';
+import '../imports/ui/contact/contact.js';
+import '../imports/ui/admin/contact.js';
+import '../imports/ui/admin/dashboard.js';
 
 FlowRouter.route('/',{
   name: 'home',
@@ -42,9 +44,43 @@ FlowRouter.route('/games/:gameId',{
     }
 });
 
+FlowRouter.route('/contact',{
+  name: 'contact',
+  action(){
+    BlazeLayout.render('layout', {child:'contact'});
+  }
+});
+
 FlowRouter.route('/toss',{
   name: 'toss',
   action(){
     BlazeLayout.render('layout', {child:'toss'});
+  }
+});
+
+
+//*********ADMIN ROUTES**********
+
+var adminRoutes = FlowRouter.group({
+  prefix: '/admin',
+  name: 'admin',
+  triggersEnter: [function(context, redirect) {
+    //make a filter to check the user is logged in
+    //and has admin role
+    console.log('running group triggers');
+  }]
+});
+
+// handling /admin route
+adminRoutes.route('/', {
+  action: function() {
+    BlazeLayout.render('layout', {child: 'adminDashboard'});
+  }
+});
+
+// handling /admin/contact
+adminRoutes.route('/contact', {
+  action(){
+    BlazeLayout.render('layout', {child:'adminContact'});
   }
 });

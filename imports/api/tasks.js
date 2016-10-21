@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 export const Games = new Mongo.Collection('games');
-export const Quotes = new Mongo.Collection('quotes');
+export const Contacts = new Mongo.Collection('contacts');
 
 if (Meteor.isServer) {
 
@@ -25,6 +24,14 @@ if (Meteor.isServer) {
     return Meteor.users.find({},{username:1,'profile.name':1, status:1});
   });
 
+  Meteor.publish("contacts", function() {
+    return Contacts.find({});
+  });
+
+  Meteor.publish("allGames", function() {
+    return Games.find({});
+  });
+
   Meteor.publish("myGames", function() {
     var userId = this.userId;
 
@@ -40,7 +47,3 @@ if (Meteor.isServer) {
   });
 
 }
-
-Meteor.methods({
-
-});
