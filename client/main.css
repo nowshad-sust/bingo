@@ -2,3 +2,7 @@
     overflow: hidden !important;
     min-width: 70px;
 }
+
+body{
+  background-color: #eee;
+}

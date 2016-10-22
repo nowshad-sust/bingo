@@ -32,6 +32,7 @@ if (Meteor.isServer) {
     return Games.find({});
   });
 
+
   Meteor.publish("myGames", function() {
     var userId = this.userId;
 

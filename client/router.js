@@ -3,7 +3,7 @@ import '../imports/ui/home/home.js';
 import '../imports/ui/about/about.js';
 import '../imports/ui/game/myGames.js';
 import '../imports/ui/game/game.js';
-import '../imports/ui/game/toss.js';
+import '../imports/ui/stats/stats.js';
 import '../imports/ui/users/users.js';
 import '../imports/ui/contact/contact.js';
 import '../imports/ui/admin/contact.js';
@@ -51,10 +51,10 @@ FlowRouter.route('/contact',{
   }
 });
 
-FlowRouter.route('/toss',{
-  name: 'toss',
+FlowRouter.route('/stats',{
+  name: 'stats',
   action(){
-    BlazeLayout.render('layout', {child:'toss'});
+    BlazeLayout.render('layout', {child:'stats'});
   }
 });
 
@@ -67,7 +67,6 @@ var adminRoutes = FlowRouter.group({
   triggersEnter: [function(context, redirect) {
     //make a filter to check the user is logged in
     //and has admin role
-    console.log('running group triggers');
   }]
 });
 

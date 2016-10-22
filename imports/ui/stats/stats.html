@@ -1,9 +1,8 @@
-<template name="adminDashboard">
+<template name="stats">
+  <br><br><br>
   <div class="container">
-
-    {{> adminNav}}
     {{#if Template.subscriptionsReady }}
-    <div class="row">
+    <!-- <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -92,7 +91,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             {{/if}}
 
@@ -101,20 +100,56 @@
           <div class="box">
             <div class="box-body">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                   <p class="text-center">
-                    <strong>Last 30 days Stat</strong>
+                    <strong>My Game Stats</strong>
                   </p>
 
-                  {{> barChart}}
+                  {{> myPieChart}}
+                  <!-- /.chart-responsive -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <p class="text-center">
-                    <strong>Overall Stat</strong>
+                    <strong>Goal Completion</strong>
                   </p>
 
-                  {{> pieChart}}
+                  <div class="progress-group">
+                    <span class="progress-text">Add Products to Cart</span>
+                    <span class="progress-number"><b>160</b>/200</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">Complete Purchase</span>
+                    <span class="progress-number"><b>310</b>/400</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">Visit Premium Page</span>
+                    <span class="progress-number"><b>480</b>/800</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-green" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">Send Inquiries</span>
+                    <span class="progress-number"><b>250</b>/500</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
                 </div>
                 <!-- /.col -->
               </div>
@@ -170,22 +205,11 @@
     </div>
 </template>
 
-<template name="pieChart">
+<template name="myPieChart">
   {{#if Template.subscriptionsReady }}
   <div class="chart">
     <!-- Sales Chart Canvas -->
-    <canvas id="pieChart"></canvas>
-  </div>
-  {{else}}
-    {{> spinner}}
-  {{/if}}
-</template>
-
-<template name="barChart">
-  {{#if Template.subscriptionsReady }}
-  <div class="chart">
-    <!-- Sales Chart Canvas -->
-    <canvas id="barChart"></canvas>
+    <canvas id="myChart"></canvas>
   </div>
   {{else}}
     {{> spinner}}
