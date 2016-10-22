@@ -62,48 +62,36 @@ Template.barChart.onRendered(function(){
 
 	Meteor.call('latestGames', function(error, result){
 		if(error){
-			alert(error);
+			console.log(error);
 		}else{
-			Session.set("data", result);
-			console.log(result);
-		}
-
-	var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "Last 30 days gameplays",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false,
-        }
-    	]
-		};
-			var ctx = $("#barChart");
-			var myLineChart = new Chart(ctx, {
-		    type: 'line',
-		    data: data,
-				options: {
-				responsive: true
-				}
+			label = [];
+			data = [];
+			result.forEach(function(day){
+				label.unshift(day._id.day);
+				data.unshift(day.count);
 			});
+			var data = {
+		    labels: label,
+		    datasets: [
+		        {
+		            label: "Day's gameplays",
+								backgroundColor: 'rgba(54, 162, 235, 0.2)',
+		            borderWidth: 1,
+		            data: data
+		        }
+		    	]
+				};
+					var ctx = $("#barChart");
+					var myBarChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: data,
+							options: {
+			        	responsive: true
+							}
+					});
+			}
 		});
+
 });
 
 Template.adminDashboard.helpers({
