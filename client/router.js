@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import '../imports/ui/layout/layout.js';
 import '../imports/ui/home/home.js';
 import '../imports/ui/about/about.js';
@@ -67,6 +69,13 @@ var adminRoutes = FlowRouter.group({
   triggersEnter: [function(context, redirect) {
     //make a filter to check the user is logged in
     //and has admin role
+    //generate a toastr
+      Meteor.call('isAdmin', function(error, result){
+        if(error || !result){
+          sAlert.error('You are not an admin',{timeout:2000,position: 'bottom-right'});
+          FlowRouter.go('/');
+        }
+      });
   }]
 });
 
