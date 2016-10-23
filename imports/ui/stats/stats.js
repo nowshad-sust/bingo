@@ -58,6 +58,103 @@ Template.myPieChart.onRendered(function(){
 		});
 });
 
+Template.myBarChart.onRendered(function(){
+
+	Meteor.subscribe('myGames', function(){
+
+		myLatestGames = Games.find({response: "Finished","mainGame.timestamp":{$gt: new Date((new Date()).getTime() - 1000*60*60*24*10)}},{sort:{"mainGame.timestamp":1}});
+
+		wins = [];
+		loses = [];
+		draws = [];
+		labels = [];
+
+		finalArray = [];
+
+		var win = 0;
+		var loss = 0;
+		var draw = 0;
+
+		myLatestGames.forEach(function(game, index){
+
+				var currentDate = game.mainGame.timestamp.getDate();
+
+				if(game.mainGame){
+					if(finalArray[currentDate]){
+						if(game.mainGame.result == 'draw'){
+								draw = finalArray[currentDate].draw + 1;
+						}else if(game.mainGame.result == Meteor.user()._id){
+								win = finalArray[currentDate].win + 1;
+						}else{
+								loss = finalArray[currentDate].loss + 1;
+						}
+					}else{
+						if(game.mainGame.result == 'draw'){
+								draw++;
+						}else if(game.mainGame.result == Meteor.user()._id){
+								win++;
+						}else{
+								loss++;
+						}
+					}
+					var object = {
+						win: win,
+						loss: loss,
+						draw: draw
+					};
+
+					finalArray[currentDate] = object;
+				}
+
+			});
+
+			labels = [];
+			win = [];
+			loss = [];
+			draw = [];
+
+			finalArray.forEach(function(stat, key){
+				labels.push(key);
+				wins.push(stat.win);
+				loses.push(stat.loss);
+				draws.push(stat.draw);
+			});
+			
+			var data = {
+		    labels: labels,
+		    datasets: [
+		        {
+		            label: "Day's Wins",
+								backgroundColor: 'rgba(54, 162, 235, 0.2)',
+		            borderWidth: 1,
+		            data: wins
+		        },
+						{
+		            label: "Day's Loss",
+								backgroundColor:	"#FF6384",
+		            borderWidth: 1,
+		            data: loses
+		        },
+						{
+		            label: "Day's Draws",
+								backgroundColor:	"#FFCE56",
+		            borderWidth: 1,
+		            data: draws
+		        }
+		    	]
+				};
+					var ctx = $("#barChart");
+					var myBarChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: data,
+							options: {
+			        	responsive: true
+							}
+					});
+		});
+});
+
+
 
 Template.stats.helpers({
 

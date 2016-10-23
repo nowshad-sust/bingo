@@ -67,7 +67,7 @@ Template.barChart.onRendered(function(){
 			label = [];
 			data = [];
 			result.forEach(function(day){
-				label.unshift(day._id.day);
+				label.unshift(day._id.day+"/"+day._id.month+"/"+day._id.year);
 				data.unshift(day.count);
 			});
 			var data = {

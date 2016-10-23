@@ -6,3 +6,7 @@
 body{
   background-color: #eee;
 }
+
+.container{
+  min-height: 100%;
+}

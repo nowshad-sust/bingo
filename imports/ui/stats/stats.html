@@ -1,162 +1,38 @@
 <template name="stats">
   <br><br><br>
   <div class="container">
-    {{#if Template.subscriptionsReady }}
-    <!-- <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-users fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">{{ countUsers }}</div>
-                                    <div>Total Users</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">{{ finishedGames }}</div>
-                                    <div>Finished Games</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">{{ runningGames }}</div>
-                                    <div>Running Games</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">{{ contactMessages }}</div>
-                                    <div>Contact Messages</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="/admin/contact">
-                            <div class="panel-footer">
-                                <span class="pull-left">View More</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div> -->
-
-            {{/if}}
-
       <div class="row">
         <div class="col-md-12">
           <div class="box">
             <div class="box-body">
               <div class="row">
-                <div class="col-md-8">
+
+                <div class="col-md-7">
                   <p class="text-center">
-                    <strong>My Game Stats</strong>
+                    <strong>Last 10 Day's Overall Stat</strong>
+                    <br>
+                    <small class="text-center">click on these colored boxes to see some variations of the chart</small>
                   </p>
 
+                  {{> myBarChart}}
+                  <small>Dates -></small>
+                </div>
+
+                <div class="col-md-5">
+                  <p class="text-center">
+                    <strong>My Game Stats</strong>
+                    <br>
+                    <small class="text-center">click on these colored boxes to see some variations of the chart</small>
+                  </p>
                   {{> myPieChart}}
                   <!-- /.chart-responsive -->
                 </div>
-                <!-- /.col -->
-                <div class="col-md-4">
-                  <p class="text-center">
-                    <strong>Goal Completion</strong>
-                  </p>
-
-                  <div class="progress-group">
-                    <span class="progress-text">Add Products to Cart</span>
-                    <span class="progress-number"><b>160</b>/200</span>
-
-                    <div class="progress sm">
-                      <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
-                    </div>
-                  </div>
-                  <!-- /.progress-group -->
-                  <div class="progress-group">
-                    <span class="progress-text">Complete Purchase</span>
-                    <span class="progress-number"><b>310</b>/400</span>
-
-                    <div class="progress sm">
-                      <div class="progress-bar progress-bar-red" style="width: 80%"></div>
-                    </div>
-                  </div>
-                  <!-- /.progress-group -->
-                  <div class="progress-group">
-                    <span class="progress-text">Visit Premium Page</span>
-                    <span class="progress-number"><b>480</b>/800</span>
-
-                    <div class="progress sm">
-                      <div class="progress-bar progress-bar-green" style="width: 80%"></div>
-                    </div>
-                  </div>
-                  <!-- /.progress-group -->
-                  <div class="progress-group">
-                    <span class="progress-text">Send Inquiries</span>
-                    <span class="progress-number"><b>250</b>/500</span>
-
-                    <div class="progress sm">
-                      <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
-                    </div>
-                  </div>
-                  <!-- /.progress-group -->
-                </div>
-                <!-- /.col -->
+                              <!-- /.col -->
               </div>
               <!-- /.row -->
             </div>
             <!-- ./box-body -->
-            <div class="box-footer">
+            <!-- <div class="box-footer">
               <div class="row">
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block border-right">
@@ -164,38 +40,32 @@
                     <h5 class="description-header">$35,210.43</h5>
                     <span class="description-text">TOTAL REVENUE</span>
                   </div>
-                  <!-- /.description-block -->
+
                 </div>
-                <!-- /.col -->
+
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block border-right">
                     <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
                     <h5 class="description-header">$10,390.90</h5>
                     <span class="description-text">TOTAL COST</span>
                   </div>
-                  <!-- /.description-block -->
                 </div>
-                <!-- /.col -->
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block border-right">
                     <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
                     <h5 class="description-header">$24,813.53</h5>
                     <span class="description-text">TOTAL PROFIT</span>
                   </div>
-                  <!-- /.description-block -->
                 </div>
-                <!-- /.col -->
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block">
                     <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
                     <h5 class="description-header">1200</h5>
                     <span class="description-text">GOAL COMPLETIONS</span>
                   </div>
-                  <!-- /.description-block -->
                 </div>
               </div>
-              <!-- /.row -->
-            </div>
+            </div> -->
             <!-- /.box-footer -->
           </div>
           <!-- /.box -->
@@ -210,6 +80,19 @@
   <div class="chart">
     <!-- Sales Chart Canvas -->
     <canvas id="myChart"></canvas>
+  </div>
+  {{else}}
+    {{> spinner}}
+  {{/if}}
+</template>
+
+
+<template name="myBarChart">
+  {{#if Template.subscriptionsReady }}
+  <div class="chart">
+
+    <canvas id="barChart"></canvas>
+
   </div>
   {{else}}
     {{> spinner}}
