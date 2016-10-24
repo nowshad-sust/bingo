@@ -29,6 +29,7 @@ FlowRouter.route('/about',{
 
 FlowRouter.route('/users',{
   name: 'users',
+  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'users'});
   }
@@ -36,6 +37,7 @@ FlowRouter.route('/users',{
 
 FlowRouter.route('/mygames',{
   name: 'mygames',
+  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'myGames'});
   }
@@ -43,6 +45,7 @@ FlowRouter.route('/mygames',{
 
 FlowRouter.route('/games/:gameId',{
   name: 'games',
+  triggersEnter: [isLoggedIn],
   action: function(params, queryParams) {
         BlazeLayout.render('layout', {child:'game'});
     }
@@ -50,6 +53,7 @@ FlowRouter.route('/games/:gameId',{
 
 FlowRouter.route('/spectategames',{
   name: 'spectategames',
+  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'spectateList'});
   }
@@ -57,6 +61,7 @@ FlowRouter.route('/spectategames',{
 
 FlowRouter.route('/spectate/:gameId',{
   name: 'spectate',
+  triggersEnter: [isLoggedIn],
   action: function(params, queryParams) {
         BlazeLayout.render('layout', {child:'spectate'});
     }
@@ -64,6 +69,7 @@ FlowRouter.route('/spectate/:gameId',{
 
 FlowRouter.route('/contact',{
   name: 'contact',
+  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'contact'});
   }
@@ -71,6 +77,7 @@ FlowRouter.route('/contact',{
 
 FlowRouter.route('/stats',{
   name: 'stats',
+  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'stats'});
   }
@@ -108,3 +115,10 @@ adminRoutes.route('/contact', {
     BlazeLayout.render('layout', {child:'adminContact'});
   }
 });
+
+function isLoggedIn(){
+  if(!Meteor.userId()){
+    sAlert.error('Please log in',{timeout:5000,position: 'bottom-right'});
+    FlowRouter.go('/');
+  }
+}

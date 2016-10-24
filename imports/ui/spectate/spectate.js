@@ -6,26 +6,34 @@ import { sAlert } from 'meteor/juliancwirko:s-alert';
 
 import './spectate.html';
 import './spectate.css';
-
-Template.spectate.onCreated(function gameOnCreated() {
+masterGame  = null;
+Template.spectate.onCreated(function() {
 	this.state = new ReactiveDict();
 	var gameId = FlowRouter.getParam('gameId');
-	Meteor.subscribe('users');
-	Meteor.subscribe('thisGame', gameId);
+	masterGame = Meteor.subscribe('specThisGame', gameId);
+
 });
 
-
-gameId = FlowRouter.getParam('gameId');
-game = Games.findOne({_id:gameId});
+Template.spectate.onRendered(function() {
+});
 
 Template.spectate.helpers({
 	and: function(value1, value2){
 		return (value1 && value2);
 	},
 	thisGame: function(){
-		var gameId = FlowRouter.getParam('gameId');
-		var game = Games.findOne({_id:gameId});
-		return game;
+		//must render this with a delay for avoiding cheating
+		if(masterGame.ready()){
+			var gameId = FlowRouter.getParam('gameId');
+			var game = Games.findOne({_id:gameId});
+			//players cannot spectate their own game
+			if(game.userId == Meteor.user()._id || game.opponentId == Meteor.user()._id){
+				FlowRouter.go(FlowRouter.current().oldRoute.name);
+				sAlert.warning('You can not watch your own game!');
+			}else{
+				return game;
+			}
+		}
 	},
 	formatTime: function(timestamp){
 		return moment(timestamp).fromNow();

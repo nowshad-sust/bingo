@@ -7,6 +7,12 @@ export const Contacts = new Mongo.Collection('contacts');
 
 if (Meteor.isServer) {
 
+  Meteor.users.deny({
+    update: function() {
+      return true;
+    }
+  });
+
   Meteor.publish('users', function UsersPublication() {
     return Meteor.users.find({},{username: 1, profile: 1});
   });
@@ -16,8 +22,13 @@ if (Meteor.isServer) {
     return game;
   });
 
+  Meteor.publish('specThisGame', function(gameId) {
+    //Meteor._sleepForMs(5000);
+    return Games.find({ _id: gameId });
+  });
+
   Meteor.publish("activeUsers", function() {
-    return Meteor.users.find({ "status.online": true });
+    return Meteor.users.find({ "status.online": true },{username:1,'profile.name':1, status:1});
   });
 
   Meteor.publish("allUsers", function() {
