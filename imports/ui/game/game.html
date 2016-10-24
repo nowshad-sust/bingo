@@ -34,10 +34,52 @@
             {{/if}}
 
         {{else}}
-          {{#if turn thisGame.mainGame.turn}}
-            <div class="alert alert-success" role="alert">Your turn</div>
-          {{else}}
-            <div class="alert alert-warning" role="alert">Opponent's turn</div>
+
+        <!-- this means game is either starting or started-->
+          {{#if thisGame.mainGame.status}}
+            {{#if and thisGame.mainGame.status.user thisGame.mainGame.status.opponent}}
+              {{#if turn thisGame.mainGame.turn}}
+                <div class="alert alert-success" role="alert">Your turn</div>
+              {{else}}
+                <div class="alert alert-warning" role="alert">Opponent's turn</div>
+              {{/if}}
+            {{else}}
+              {{#if checkUser thisGame.userId}}
+                {{#if thisGame.mainGame.status.opponent }}
+                  <p class="alert alert-info">
+                    Opponent is ready.
+                  </p>
+                {{/if}}
+
+                {{#if not thisGame.mainGame.status.user }}
+                  <span class="btn-group">
+                    <button class="btn btn-xs btn-info btn-reshuffle"> Reshuffle Board</button>
+                    <button class="btn btn-xs btn-success btn-start-game"> Start Game</button>
+                  </span>
+                {{else}}
+                  <p class="alert alert-warning">
+                    Waiting for opponents acceptance . . .
+                  </p>
+                {{/if}}
+              {{else}}
+                {{#if thisGame.mainGame.status.user }}
+                  <p class="alert alert-info">
+                    Opponent is ready.
+                  </p>
+                {{/if}}
+
+                {{#if not thisGame.mainGame.status.opponent }}
+                  <span class="btn-group">
+                    <button class="btn btn-xs btn-info btn-reshuffle"> Reshuffle Board</button>
+                    <button class="btn btn-xs btn-success btn-start-game"> Start Game</button>
+                  </span>
+                {{else}}
+                  <p class="alert alert-warning">
+                    Waiting for opponents acceptance . . .
+                  </p>
+                {{/if}}
+              {{/if}}
+            {{/if}}
           {{/if}}
         {{/if}}
       </h4>

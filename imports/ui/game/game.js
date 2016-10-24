@@ -19,6 +19,12 @@ gameId = FlowRouter.getParam('gameId');
 game = Games.findOne({_id:gameId});
 
 Template.game.helpers({
+	and: function(value1, value2){
+		return (value1 && value2);
+	},
+	not: function(condition){
+		return !condition;
+	},
 	thisGame: function(){
 		var gameId = FlowRouter.getParam('gameId');
 		var game = Games.findOne({_id:gameId});
@@ -38,11 +44,11 @@ Template.game.helpers({
 		var game = Games.findOne({_id:gameId});
 		//check the is finished or not
 		if(game.mainGame.result == Meteor.user()._id){
-			return {status:true,winner:"You Won <br> <img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>"};
+			return {status:true,winner:"You Won <br><hr> <img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>"};
 		}else if(game.mainGame.result == 'draw'){
-			return {status:false,winner:"Game Drawn! <br> <img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>"};
+			return {status:false,winner:"Game Drawn! <br><hr> <img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>"};
 		}else{
-			return {status:false,winner:"Opponent Won! <br> <img class='result-image' src='https://media2.giphy.com/media/mcH0upG1TeEak/100.gif'>"};
+			return {status:false,winner:"Opponent Won! <br><hr> <img class='result-image' src='https://media2.giphy.com/media/mcH0upG1TeEak/100.gif'>"};
 		}
 	},
 	turn: function(turn){
@@ -91,9 +97,9 @@ Template.game.events({
 
 				Meteor.call('sendMessage',options, function(error, result){
 					if(error){
-						sAlert.error('Error update the index',{timeout:2000,position: 'bottom-left'});
+						sAlert.error('Error update the index',{timeout:2000,position: 'bottom-right'});
 					}else{
-						sAlert.success('Message Sent',{timeout:2000,position: 'bottom-left'});
+						sAlert.success('Message Sent',{timeout:2000,position: 'bottom-right'});
 					}
 				});
 
@@ -102,11 +108,78 @@ Template.game.events({
 			}
 	},
 
+	'click .btn-start-game': function(event){
+
+		var user = Meteor.user();
+		var gameId = FlowRouter.getParam('gameId');
+		var game = Games.findOne({_id:gameId});
+
+		if(user._id == game.userId){
+			//update user status
+			Meteor.call('updateStatus', gameId, 'user', function(error, result){
+					if(!error && result){
+						sAlert.success("Please wait for opponent's response.",{timeout:2000,position: 'bottom-right'});
+					}else{
+						sAlert.error('Error',{timeout:2000,position: 'bottom-right'});
+					}
+			});
+		}else if(user._id == game.opponentId){
+			//update opponent status
+			Meteor.call('updateStatus', gameId, 'opponent', function(error, result){
+					if(!error && result){
+						sAlert.success("Please wait for opponent's response.",{timeout:2000,position: 'bottom-right'});
+					}else{
+						sAlert.error('Error',{timeout:2000,position: 'bottom-right'});
+					}
+			});
+		}
+
+	},
+
+	'click .btn-reshuffle': function(event){
+		var user = Meteor.user();
+		var gameId = FlowRouter.getParam('gameId');
+		var game = Games.findOne({_id:gameId});
+		var numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
+
+		if(user._id == game.userId){
+			//update user board
+			var newUserBoard = generateBoard(shuffle(numbers));
+
+			Meteor.call('resetBoard', gameId, newUserBoard, 'user', function(error, result){
+					if(!error && result){
+						sAlert.success('Your board is regenerated',{timeout:2000,position: 'bottom-right'});
+					}else{
+						sAlert.error('Error reshuffle',{timeout:2000,position: 'bottom-right'});
+					}
+			});
+		}else if(user._id == game.opponentId){
+			//update opponent board
+			var newOpponentBoard = generateBoard(shuffle(numbers));
+
+			Meteor.call('resetBoard', gameId, newOpponentBoard, 'opponent', function(error, result){
+				if(!error && result){
+					sAlert.success('Your board is regenerated',{timeout:2000,position: 'bottom-right'});
+				}else{
+					sAlert.error('Error reshuffle',{timeout:2000,position: 'bottom-right'});
+				}
+			});
+		}
+	},
+
 	'click .select-box': function(event){
 
 		if(event.target.attributes.data){
 			var gameId = FlowRouter.getParam('gameId');
 			var game = Games.findOne({_id:gameId});
+
+			if(game.mainGame.status){
+				if(!(game.mainGame.status.user && game.mainGame.status.opponent)){
+						sAlert.warning('Please wait till both of you start the game!',{timeout:2000,position: 'bottom-left'});
+						return;
+				}
+			}
+
 			if(game.mainGame.result == null){
 				var turn = event.target.attributes.data.value;
 				if(turn == Meteor.user()._id){
@@ -125,18 +198,6 @@ Template.game.events({
 							}
 						});
 						var finished = checkFinished();
-						// if(finished){
-						// 	//check whats the result
-						// 	var finishedGame = Games.findOne({_id:game._id})
-						// 	console.log("result: " + finishedGame.mainGame.result);
-						// 	if(finishedGame.mainGame.result == Meteor.user()._id){
-						// 		sAlert.info("<h1>Congratulations! You Won </h1><br<img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>",{timeout:10000,position: 'bottom'});
-						// 	}else if(finishedGame.mainGame.result == "draw"){
-						// 		sAlert.info("<h1>Game Drawn! </h1><br><img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>",{timeout:10000,position: 'bottom'});
-						// 	}else{
-						// 		sAlert.info("<h1>You're A Looser </h1><br><img class='result-image' src='https://media2.giphy.com/media/mcH0upG1TeEak/100.gif'>",{timeout:10000,position: 'bottom'});
-						// 	}
-						// }
 					}
 				}else{
 					sAlert.warning('Please wait for opponents response first!',{timeout:2000,position: 'bottom-left'});
@@ -144,6 +205,7 @@ Template.game.events({
 			}else{
 				sAlert.success('Game Already Finished!',{timeout:2000,position: 'bottom-left'});
 			}
+
 		}else{
 			sAlert.success('Game Already Finished!',{timeout:2000,position: 'bottom-left'});
 		}
@@ -346,4 +408,33 @@ function arrayExists(subArray, superArray){
         }
     });
 		return found;
+}
+
+function generateBoard (array) {
+
+  var i = 0;
+  var userBoard = [];
+
+  for (i = 0; i < array.length; i++) {
+    userBoard[i] =
+      {
+        number: array[i],
+        selected: false
+      }
+  }
+  return userBoard;
+}
+
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+  return array;
 }
