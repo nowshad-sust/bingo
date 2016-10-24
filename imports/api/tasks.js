@@ -45,10 +45,17 @@ if (Meteor.isServer) {
 
 
   Meteor.publish("spectateGames", function() {
+
+    var userId = this.userId;
+
     var t = new Date();
     t.setSeconds(t.getSeconds() - 60);
     //get the games those are updated inbetween last 60 seconds
-    return Games.find({'mainGame.result': null, 'mainGame.lastSelection.timestamp': { $gte : t } });
+    return Games.find({ 'mainGame.result': null,
+                        'mainGame.lastSelection.timestamp': { $gte : t },
+                        userId: { $ne: userId },
+                        opponentId: { $ne: userId }
+                      });
   });
 
 
