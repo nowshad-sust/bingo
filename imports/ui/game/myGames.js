@@ -44,7 +44,7 @@ Template.myGames.helpers({
 			gamesArray.push(game);
 		});
 
-		console.log(gamesArray);
+		//console.log(gamesArray);
 
         return {
             collection: gamesArray,

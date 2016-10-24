@@ -12,15 +12,21 @@ Template.spectateList.onCreated(function gameOnCreated() {
 });
 
 Template.spectateList.onRendered(function gameOnCreated() {
-
+	Session.set('reactiveTable',null);
 });
 
 
 Template.spectateList.helpers({
 
-	settings: function () {
+	spectate: function () {
+
 		var userId = Meteor.user()._id;
-		var games = Games.find({}, {sort: {'mainGame.lastSelection.timestamp': -1}});
+		var games = Games.find({  'mainGame.result': null,
+			                        'mainGame.lastSelection.timestamp': { $gte : t },
+			                        userId: { $ne: userId },
+			                        opponentId: { $ne: userId }},
+
+												 {sort: {'mainGame.lastSelection.timestamp': -1}});
 
 		var gamesArray = [];
 
@@ -72,22 +78,7 @@ Template.spectateList.helpers({
 							{key: 'button', label: 'Link', sortable: false}
 							]
         };
-    },
-	myGames: function(){
-		var userId = Meteor.user()._id;
-		return Games.find({ needsConfirmation:false, $or:[{userId:userId},{opponentId:userId}] },{sort: {'mainGame.timestamp': -1}});
-	},
-	pendingGames: function(){
-		var userId = Meteor.user()._id;
-		return Games.find({ needsConfirmation:true, $or:[{userId:userId},{opponentId:userId}] },{sort: {_id: -1}});
-	},
-	userStatus: function(){
-		if(this.userId == Meteor.user()._id){
-			return {status:true, userName: this.opponentName};
-		}else{
-			return {status:false, userName: this.userName};
-		}
-	}
+    }
 });
 
 Template.myGames.events({
