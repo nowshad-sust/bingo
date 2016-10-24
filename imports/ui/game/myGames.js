@@ -12,11 +12,12 @@ Template.myGames.onCreated(function gameOnCreated() {
 });
 
 Template.myGames.onRendered(function gameOnCreated() {
-	
+
 });
 
 
 Template.myGames.helpers({
+
 	requestSettings: function () {
 		var userId = Meteor.user()._id;
 		var games = Games.find({ needsConfirmation:true, $or:[{userId:userId},{opponentId:userId}] },{sort: {_id: -1}});
@@ -24,6 +25,7 @@ Template.myGames.helpers({
 		var gamesArray = [];
 
 		games.forEach(function(game){
+
 			var opponent = null;
 			var button = null;
 			var status = null;
@@ -42,7 +44,7 @@ Template.myGames.helpers({
 			gamesArray.push(game);
 		});
 
-		//console.log(gamesArray);
+		console.log(gamesArray);
 
         return {
             collection: gamesArray,

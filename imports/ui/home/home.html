@@ -15,7 +15,6 @@
   							<span id="quote"></span>
   						</blockquote>
 					  </div>
-
   				</div>
   			</div>
   		</div>
@@ -23,11 +22,11 @@
 
       <script type="text/javascript">
       $(document).ready(function(){
-        var quote = $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1", function(data){
+        var quote = $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?", function(data){
           if(data){
               $("#quote").append(data[0].content + "<br>" + data[0].title);
           }else{
-            $("#quote").append("Make your every heartbeat count" + "<br>" + "Unknown");
+              $("#quote").append("Make your every heartbeat count" + "<br>" + "Unknown");
           }
         });
       });

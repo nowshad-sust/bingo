@@ -69,7 +69,6 @@ FlowRouter.route('/spectate/:gameId',{
 
 FlowRouter.route('/contact',{
   name: 'contact',
-  triggersEnter: [isLoggedIn],
   action(){
     BlazeLayout.render('layout', {child:'contact'});
   }
