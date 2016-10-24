@@ -43,6 +43,11 @@
               {{else}}
                 <div class="alert alert-warning" role="alert">Opponent's turn</div>
               {{/if}}
+
+              {{#if thisGame.mainGame.lastSelection}}
+                Last Selected: {{ thisGame.mainGame.lastSelection.index }}
+              {{/if}}
+
             {{else}}
               {{#if checkUser thisGame.userId}}
                 {{#if thisGame.mainGame.status.opponent }}
@@ -168,7 +173,6 @@
 
         {{#if checkUser thisGame.userId}}
         <div align="center">
-          <h4>Your board</h4>
           <table class="game-table" align="center" id="game-table">
             {{#each entry in thisGame.mainGame.userBoard}}
               {{{ifCheck @index}}}
@@ -190,7 +194,6 @@
 
           {{else}}
           <div align="center">
-            <h4>Your board</h4>
             <table class="game-table" align="center" id="game-table">
                 {{#each entry in thisGame.mainGame.opponentBoard}}
                   {{{ifCheck @index}}}
@@ -218,10 +221,21 @@
             <div class="portlet portlet-default">
                 <div class="portlet-heading">
                     <div class="portlet-title">
-                        <h4 style="color:white;"><i class="fa fa-user"></i>
+                        <h4 style="color:white;">
                           {{#if checkUser thisGame.userId}}
+                            {{#if isOnline thisGame.opponentId}}
+                              <i class="fa fa-circle text-success"></i>
+                            {{else}}
+                              <i class="fa fa-circle text-default"></i>
+                            {{/if}}
+
                             <strong>{{thisGame.opponentName}}</strong>
                           {{else}}
+                            {{#if isOnline thisGame.userId}}
+                              <i class="fa fa-circle text-success"></i>
+                            {{else}}
+                              <i class="fa fa-circle text-default"></i>
+                            {{/if}}
                             <strong>{{thisGame.userName}}</strong>
                           {{/if}}
                         </h4>

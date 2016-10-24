@@ -1,0 +1,15 @@
+.game-table {
+  border: 2px solid black;
+  font-size: 25px;
+  margin: auto;
+  align-self: center;
+}
+
+.game-table td {
+  width: 50px;
+  height: 50px;
+  border: 2px solid black;
+  line-height: 50px;
+  text-align: center;
+  background-color: #f2f2f2;
+}

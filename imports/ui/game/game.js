@@ -30,6 +30,9 @@ Template.game.helpers({
 		var game = Games.findOne({_id:gameId});
 		return game;
 	},
+	isOnline: function(userId){
+		return Meteor.users.findOne({_id: userId}).status.online;
+	},
 	formatTime: function(timestamp){
 		return moment(timestamp).fromNow();
 	},

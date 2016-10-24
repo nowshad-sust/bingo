@@ -5,6 +5,8 @@ import '../imports/ui/home/home.js';
 import '../imports/ui/about/about.js';
 import '../imports/ui/game/myGames.js';
 import '../imports/ui/game/game.js';
+import '../imports/ui/spectate/spectateList.js';
+import '../imports/ui/spectate/spectate.js';
 import '../imports/ui/stats/stats.js';
 import '../imports/ui/users/users.js';
 import '../imports/ui/contact/contact.js';
@@ -43,6 +45,20 @@ FlowRouter.route('/games/:gameId',{
   name: 'games',
   action: function(params, queryParams) {
         BlazeLayout.render('layout', {child:'game'});
+    }
+});
+
+FlowRouter.route('/spectategames',{
+  name: 'spectategames',
+  action(){
+    BlazeLayout.render('layout', {child:'spectateList'});
+  }
+});
+
+FlowRouter.route('/spectate/:gameId',{
+  name: 'spectate',
+  action: function(params, queryParams) {
+        BlazeLayout.render('layout', {child:'spectate'});
     }
 });
 

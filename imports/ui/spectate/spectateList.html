@@ -1,0 +1,24 @@
+<template name="spectateList">
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <div class="row">
+
+      {{#if currentUser}}
+        {{#if Template.subscriptionsReady}}
+      <div class="col-md-6">
+        <h2>Spectate Games</h2>
+        {{> reactiveTable class="table" settings=settings}}
+      </div>
+        {{else}}
+        <div class="spinner">
+          {{> spinner}}
+        </div>
+        {{/if}}
+      {{else}}
+          <h2>Please Login</h2>
+      {{/if}}
+    </div>
+  </div>
+</template>

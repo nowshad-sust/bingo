@@ -1,0 +1,93 @@
+<template name="spectate">
+<div id="fh5co-services-section">
+<div class="container">
+    <div class="row text-center">
+      {{#if currentUser}}
+      {{#if Template.subscriptionsReady}}
+      {{#if thisGame }}
+      <div class="col-md-7 text-center">
+      <h4>
+        <strong>{{thisGame.userName}}</strong>
+        vs
+        <strong>{{thisGame.opponentName}}</strong>
+      </h4>
+      <h5>
+        Started: {{ formatTime thisGame.mainGame.timestamp }}
+      </h5>
+      <h4 class="text-center">
+        {{#if thisGame.mainGame.result}}
+            <div class="alert alert-warning" role="alert">Game Finished
+              <br>Result:
+                {{ gameWinner thisGame.mainGame.result }}
+            </div>
+        {{else}}
+
+        <!-- this means game is either starting or started-->
+          {{#if thisGame.mainGame.status}}
+            {{#if and thisGame.mainGame.status.user thisGame.mainGame.status.opponent}}
+
+              <div class="alert alert-success" role="alert">{{ turn thisGame.mainGame.turn thisGame}}</div>
+
+              {{#if thisGame.mainGame.lastSelection}}
+                Last Selected: {{ thisGame.mainGame.lastSelection.index }}
+              {{/if}}
+
+            {{else}}
+                  <p class="alert alert-info">
+                    Players are warming up ...
+                  </p>
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      </h4>
+
+        <div class="col-md-6">
+          <h4>{{ thisGame.userName }}'s board</h4>
+          <table class="game-table" align="center">
+              {{#each entry in thisGame.mainGame.userBoard}}
+                {{{ifCheck @index}}}
+                {{#if entry.selected}}
+                <td style="background-color:#558C89;color:white;"
+                    data="{{ thisGame.mainGame.turn }}"
+                    index="{{ @index }}"
+                    status=true>{{entry.number}}</td>
+                {{else}}
+                  <td data="{{ thisGame.mainGame.turn }}"
+                      index="{{ @index }}"
+                      status=false>{{entry.number}}</td>
+                {{/if}}
+              {{/each}}
+            </table>
+        </div>
+
+        <div class="col-md-6">
+          <h4>{{ thisGame.opponentName }}'s board</h4>
+          <table class="game-table" align="center">
+              {{#each entry in thisGame.mainGame.opponentBoard}}
+                {{{ifCheck @index}}}
+                {{#if entry.selected}}
+                <td style="background-color:#558C89;color:white;"
+                    data="{{ thisGame.mainGame.turn }}"
+                    index="{{ @index }}"
+                    status=true>{{entry.number}}</td>
+                {{else}}
+                  <td data="{{ thisGame.mainGame.turn }}"
+                      index="{{ @index }}"
+                      status=false>{{entry.number}}</td>
+                {{/if}}
+              {{/each}}
+            </table>
+        </div>
+      </div>
+
+        {{else}}
+          {{> spinner}}
+        {{/if}}
+        {{/if}}
+        {{else}}
+          <h2>Please Login</h2>
+        {{/if}}
+    </div>
+  </div>
+</div>
+</template>
