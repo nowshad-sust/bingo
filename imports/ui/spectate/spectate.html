@@ -1,11 +1,11 @@
 <template name="spectate">
 <div id="fh5co-services-section">
-<div class="container">
-    <div class="row text-center">
+<div class="container text-center">
+    <div>
       {{#if currentUser}}
       {{#if Template.subscriptionsReady}}
       {{#if thisGame }}
-      <div class="col-md-7 text-center">
+      <div class="col-md-7 col-md-offset-2 text-center">
       <h4>
         <strong>{{thisGame.userName}}</strong>
         vs
@@ -14,7 +14,6 @@
       <h5>
         Started: {{ formatTime thisGame.mainGame.timestamp }}
       </h5>
-      <h4 class="text-center">
         {{#if thisGame.mainGame.result}}
             <div class="alert alert-warning" role="alert">Game Finished
               <br>Result:
@@ -26,10 +25,9 @@
           {{#if thisGame.mainGame.status}}
             {{#if and thisGame.mainGame.status.user thisGame.mainGame.status.opponent}}
 
-              <div class="alert alert-success" role="alert">{{ turn thisGame.mainGame.turn thisGame}}</div>
-
+              <div class="alert alert-success" role="alert">{{ turn thisGame.mainGame.turn thisGame}}'s Turn</div>
               {{#if thisGame.mainGame.lastSelection}}
-                Last Selected: {{ thisGame.mainGame.lastSelection.index }}
+                <span class="text-success">Last Selected: {{ thisGame.mainGame.lastSelection.index }}</span>
               {{/if}}
 
             {{else}}
@@ -39,8 +37,12 @@
             {{/if}}
           {{/if}}
         {{/if}}
-      </h4>
 
+      <div class="row">
+        <p class="text-danger">
+          <small>You are watching this game with an intended delay to ensure fair play.
+          Please be honest with your friends.</small>
+        </p>
         <div class="col-md-6">
           <h4>{{ thisGame.userName }}'s board</h4>
           <table class="game-table" align="center">
@@ -79,6 +81,8 @@
             </table>
         </div>
       </div>
+      </div>
+
 
         {{else}}
           {{> spinner}}

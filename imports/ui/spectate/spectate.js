@@ -10,8 +10,8 @@ masterGame  = null;
 Template.spectate.onCreated(function() {
 	this.state = new ReactiveDict();
 	var gameId = FlowRouter.getParam('gameId');
-	masterGame = Meteor.subscribe('specThisGame', gameId);
-
+	//masterGame = Meteor.subscribe('specThisGame', gameId);
+	masterGame = Meteor.subscribe('delayed', gameId, 10000);
 });
 
 Template.spectate.onRendered(function() {
@@ -26,7 +26,7 @@ Template.spectate.helpers({
 		if(masterGame.ready()){
 			var gameId = FlowRouter.getParam('gameId');
 			var game = Games.findOne({_id:gameId});
-			//players cannot spectate their own game
+			//		players cannot spectate their own game
 			if(game.userId == Meteor.user()._id || game.opponentId == Meteor.user()._id){
 				FlowRouter.go(FlowRouter.current().oldRoute.name);
 				sAlert.warning('You can not watch your own game!');

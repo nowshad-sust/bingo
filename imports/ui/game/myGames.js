@@ -57,7 +57,7 @@ Template.myGames.helpers({
 
 							{key: 'opponent', label: 'Opponent'},
 							{key: 'response', label: 'Status'},
-							{key: 'button', label: 'Link'}
+							{key: 'button', label: 'Link', sortable: false}
 							]
         };
     },
@@ -125,7 +125,7 @@ Template.myGames.helpers({
 							{key: 'opponent', label: 'Opponent'},
 							{key: 'result', label: 'Result'},
 							{key: 'time', label: 'Time'},
-							{key: 'button', label: 'Link'}
+							{key: 'button', label: 'Link', sortable: false}
 							]
         };
     },

@@ -27,6 +27,41 @@ if (Meteor.isServer) {
     return Games.find({ _id: gameId });
   });
 
+  Meteor.publish('delayed', function (gameId,delay) {
+  let isStopped = false;
+
+  const handle = Games.find({  _id: gameId }).observeChanges({
+    added: (id, fields) => {
+      Meteor.setTimeout(() => {
+        if (!isStopped) {
+          this.added(Games._name, id, fields);
+        }
+      }, delay);
+    },
+    changed: (id, fields) => {
+      Meteor.setTimeout(() => {
+        if (!isStopped) {
+          this.changed(Games._name, id, fields);
+        }
+      }, delay);
+    },
+    removed: (id) => {
+      Meteor.setTimeout(() => {
+        if (!isStopped) {
+          this.removed(Games._name, id);
+        }
+      }, delay);
+    }
+  });
+
+  this.onStop(() => {
+    isStopped = true;
+    handle.stop();
+  });
+
+  this.ready();
+});
+
   Meteor.publish("activeUsers", function() {
     return Meteor.users.find({ "status.online": true },{username:1,'profile.name':1, status:1});
   });
@@ -52,7 +87,10 @@ if (Meteor.isServer) {
     t.setSeconds(t.getSeconds() - 60);
     //get the games those are updated inbetween last 60 seconds
     return Games.find({ 'mainGame.result': null,
-                        'mainGame.lastSelection.timestamp': { $gte : t },
+                        $or:[
+                          {'mainGame.timestamp': { $gte : t }},
+                          {'mainGame.lastSelection.timestamp': { $gte : t }}
+                        ],
                         userId: { $ne: userId },
                         opponentId: { $ne: userId }
                       });
