@@ -34,3 +34,7 @@ Meteor.startup(function () {
     });
 
 });
+
+$(document).on('click',function(){
+    $('.nav-menu').collapse('hide');
+})

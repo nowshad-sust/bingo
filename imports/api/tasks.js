@@ -111,4 +111,24 @@ if (Meteor.isServer) {
 
   });
 
+  Meteor.publish("userGames", function() {
+    var userId = this.userId;
+
+    var games =  Games.find({ $or:[{userId: userId},{opponentId: userId}]},
+                              { _id : 1,
+                                userId : 1,
+                                opponentId : 1,
+                                needsConfirmation : 1,
+                                response : 1
+                            });
+
+    if(games){
+      return games;
+    }else{
+      console.log("no games published");
+      return null;
+    }
+
+  });
+
 }

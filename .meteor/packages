@@ -17,7 +17,7 @@ kadira:flow-router
 kadira:blaze-layout
 fortawesome:fontawesome
 aldeed:collection2
-accounts-ui
+ian:accounts-ui-bootstrap-3
 accounts-password
 accounts-facebook
 accounts-google
@@ -31,3 +31,4 @@ juliancwirko:s-alert-genie
 aslagle:reactive-table
 momentjs:moment
 meteorhacks:aggregate
+less

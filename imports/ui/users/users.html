@@ -3,7 +3,7 @@
   <div class="container">
     <br>
     <div class="row fh5co-heading">
-      <div class="col-md-8">
+      <div class="col-md-8 col-md-offset-2">
         {{#if currentUser }}
             <div id="users">
               <br>
@@ -13,54 +13,9 @@
               </div>
               {{#if Template.subscriptionsReady }}
               <div class="row">
-                <table id="myTable" class="table display compact">
-                  <thead>
-                    <tr>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Games</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {{#each usersList }}
-                    <tr>
-                    <td>
-                      {{#if user.username }}
-                      <span class="name">{{user.username}}</span>
-                      {{else}}
-                      <span class="name">{{user.profile.name}}</span>
-                      {{/if}}
-                    </td>
-                    <td>
-                      {{#if user.status.online}}
-                        <i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i> Online
-                      {{else}}
-                        <i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:orange;"></i> Offline
-                      {{/if}}
-                    </td>
-                    <td>
-                      <span class="btn-group">
-
-                      {{#if runningGame}}
-                        <a class="btn btn-xs btn-default" href="games/{{ runningGame._id }}">Continue</a>
-                      {{else}}
-                        {{#if isNull userStatus }}
-                        <button type="button" class="btn-create btn btn-xs btn-info">Invite</button>
-                        {{else}}
-                          {{#if userStatus }}
-                          <button type="button" class="btn-cancel btn btn-xs btn-danger">Cancel</button>
-                          {{else}}
-                          <button type="button" class="btn-accept btn btn-xs btn-success">Accept</button>
-                          <button type="button" class="btn-decline btn btn-xs btn-danger">Decline</button>
-                          {{/if}}
-                        {{/if}}
-                      {{/if}}
-                    </span>
-                    </td>
-                    </tr>
-                    {{/each}}
-                  </tbody>
-                  </table>
+                <div class='react-table-special'>
+                  {{> reactiveTable class="table table-condensed" settings=requestSettings}}
+                </div>
               </div>
               {{else}}
                 <div class="spinner text-warning">

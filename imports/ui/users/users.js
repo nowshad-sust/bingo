@@ -5,14 +5,10 @@ import { Games } from '../../api/tasks.js';
 
 import './users.html';
 
-// import '../../../public/css/datatables.min.css';
-// import '../../../public/js/datatables.min.js';
-
-
 Template.users.onCreated(function usersOnCreated() {
 	this.state = new ReactiveDict();
 	//Meteor.subscribe('activeUsers');
-	Meteor.subscribe('myGames');
+	Meteor.subscribe('userGames');
 	Meteor.subscribe('allUsers');
 
 });
@@ -20,28 +16,11 @@ Template.users.onCreated(function usersOnCreated() {
 
 
 Template.users.onRendered(function() {
-		$('#myTable').dataTable( {
-					saveState: true,
-					aaSorting: []
-			});
 });
 
 Template.users.helpers({
-	serial: (index)=>{
-			return (index+1);
-	},
-
-	isNull: (string)=>{
-		if(string == null){
-			return true;
-		}else{
-			return false;
-		}
-	},
-
-	usersList: ()=>{
-
-			var userId = Meteor.user()._id;
+	requestSettings: function () {
+		var userId = Meteor.user()._id;
 			var users = Meteor.users.find({ _id: { $ne: Meteor.user()._id} }, {sort: {'status.online': -1}},{username: 1,'profile.name':1, status:1} );
 
 			if(users.length <= 0) {
@@ -50,49 +29,73 @@ Template.users.helpers({
 
 			userList = [];
 			users.forEach(function(user){
-				tempGame = Games.findOne({ $or: [
-																				{ $and: [{userId:userId},{opponentId:user._id}]},
-																				{ $and: [{userId:user._id},{opponentId:userId}]}
-																			],
-																			needsConfirmation: true});
+				var tempGame = Games.findOne({ $or: 
+											[
+											{ $and: [{userId:userId},{opponentId:user._id}]},
+											{ $and: [{userId:user._id},{opponentId:userId}]}
+											],needsConfirmation: true});
 
-			 runningGame = Games.findOne({ $or: [
-																					{ $and: [{userId:userId},{opponentId:user._id}]},
-																					{ $and: [{userId:user._id},{opponentId:userId}]}
-																					],
-																		needsConfirmation: false, response: 'running'});
+			 	var runningGame = Games.findOne({ $or: [
+												{ $and: [{userId:userId},{opponentId:user._id}]},
+												{ $and: [{userId:user._id},{opponentId:userId}]}
+												],
+												needsConfirmation: false, response: 'running'});
+				
+				var username = (user.username != null && user.username != "") ? user.username : user.profile.name;
+				
+				var isUserOnline = function () {
+					if(user.status.online){
+						return new Spacebars.SafeString('<i class="fa fa-circle" title="User is online" aria-hidden="true" style="color:lime;"></i> Online');
+					} else {
+						return new Spacebars.SafeString('<i class="fa fa-circle" title="User is offline" aria-hidden="true" style="color:orange;"></i> Offline');	
+					}					 
+				};
 
-				userStatus = false;
-				if(tempGame){
-					if(tempGame.userId == userId){
-						 userStatus = true;
-					}else if(tempGame.opponentId == userId){
-						userStatus = false;
-					}else{
-						userStatus = null;
-					}
-				}else{
-					userStatus = null;
-				}
-				 userDetails = {
-					user: user,
-					game: tempGame,
-					runningGame: runningGame,
-					userStatus: userStatus
+				var link = function(){
+					if(runningGame){
+						return new Spacebars.SafeString('<a class="btn btn-xs btn-default" href="games/'+ runningGame._id +'">Continue</a>');
+					}else if(tempGame){
+                    	if(tempGame.userId == userId){
+                    		return new Spacebars.SafeString('<button type="button" game_id="'+ tempGame._id +'" class="btn-cancel btn btn-xs btn-danger">Cancel</button>');		
+                    	}else{
+                    		return new Spacebars.SafeString('<button type="button" game_id="'+ tempGame._id +'" class="btn-accept btn btn-xs btn-success">Accept</button>' +
+                    										'<button type="button" game_id="'+ tempGame._id +'" class="btn-decline btn btn-xs btn-danger">Decline</button>');
+                    	}                          
+                          
+                    }else{
+                    	return new Spacebars.SafeString('<button type="button" user_id="'+ user._id +'" class="btn-create btn btn-xs btn-info">Invite</button>');
+                        
+                    }
+				};
+
+				userDetails = {
+					username: username,
+					status: isUserOnline,
+					link: link
 				};
 				userList.push(userDetails);
 		});
 
-		//console.log(userList);
-			return userList;
-	},
+        return {
+            collection: userList,
+            rowsPerPage: 10,
+            showFilter: true,
+			sortable: false,
+            fields: [
+					{key: 'user.status.online', label: 'Status', sortOrder: 1, sortDirection: 'descending', hidden: true},
+					{key: 'username', label: 'User'},
+					{key: 'status', label: 'Status'},
+					{key: 'link', label: 'Action'}
 
+				]
+        };
+    },
 });
 
 Template.users.events({
 
 	'click .btn-create': function(event){
-		var opponentId = this.user._id;
+		var opponentId = event.target.getAttribute("user_id");
 		var userId = Meteor.user()._id;
 		//create a new game between these two users
 		$response = Meteor.call('createGame',userId,opponentId, function(error, result){
@@ -106,7 +109,7 @@ Template.users.events({
 
 	},
 	'click .btn-cancel': function(event){
-		var gameId = this.game._id;
+		var gameId = event.target.getAttribute("game_id");
 		//cancel the request
 		Meteor.call('cancelGame', gameId, function(error, result){
 			if(error){
@@ -118,7 +121,7 @@ Template.users.events({
 	},
 
 	'click .btn-decline': function(event){
-			var gameId = this.game._id;
+			var gameId = event.target.getAttribute("game_id");
 			//cancel the request
 			Meteor.call('cancelGame', gameId, (error, result)=>{
 				if(error){
@@ -131,7 +134,7 @@ Template.users.events({
 		},
 
 	'click .btn-accept': function(event){
-		var gameId = this.game._id;
+		var gameId = event.target.getAttribute("game_id");
 		//initiate a game here;
 		Meteor.call('acceptGame', gameId, (error, result)=>{
 			if(error){
