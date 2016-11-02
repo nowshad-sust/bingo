@@ -69,6 +69,7 @@ Template.users.helpers({
 				};
 
 				userDetails = {
+					online: user.status.online,
 					username: username,
 					status: isUserOnline,
 					link: link
@@ -82,10 +83,10 @@ Template.users.helpers({
             showFilter: true,
 			sortable: false,
             fields: [
-					{key: 'user.status.online', label: 'Status', sortOrder: 1, sortDirection: 'descending', hidden: true},
+					{key: 'online', label: 'Status', sortOrder: 1, sortDirection: 'descending', hidden: true},
 					{key: 'username', label: 'User'},
-					{key: 'status', label: 'Status'},
-					{key: 'link', label: 'Action'}
+					{key: 'status', label: 'Status', sortable: false},
+					{key: 'link', label: 'Action', sortable: false}
 
 				]
         };

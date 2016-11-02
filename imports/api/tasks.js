@@ -67,7 +67,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish("allUsers", function() {
-    return Meteor.users.find({},{username:1,'profile.name':1, status:1});
+    return Meteor.users.find({},{sort: {'status.online': -1}},{username:1,'profile.name':1, status:1});
   });
 
   Meteor.publish("contacts", function() {

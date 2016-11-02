@@ -29,7 +29,7 @@ html {
 	background: rgba(255,0,0,0.3); 
 }
 
-table, th, tr {
+table, th, tr, td {
     text-align: center;
 }
 body{
