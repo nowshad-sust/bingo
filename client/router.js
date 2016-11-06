@@ -13,6 +13,17 @@ import '../imports/ui/contact/contact.js';
 import '../imports/ui/admin/contact.js';
 import '../imports/ui/admin/dashboard.js';
 
+
+Tracker.autorun(function() {
+    
+    if(!FlowRouter.subsReady()){
+      $('body').hide();
+    }else{
+      $('body').fadeIn( "slow");
+    }
+
+});
+
 FlowRouter.route('/',{
   name: 'home',
   action(){
