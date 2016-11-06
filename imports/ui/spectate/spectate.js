@@ -11,7 +11,7 @@ Template.spectate.onCreated(function() {
 	this.state = new ReactiveDict();
 	var gameId = FlowRouter.getParam('gameId');
 	//masterGame = Meteor.subscribe('specThisGame', gameId);
-	masterGame = Meteor.subscribe('delayed', gameId, 10000);
+	masterGame = Meteor.subscribe('delayed', gameId, 0);
 });
 
 Template.spectate.onRendered(function() {

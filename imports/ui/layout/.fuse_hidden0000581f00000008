@@ -1,6 +1,6 @@
 <template name="layout">
 
-<div id="fh5co-page">
+  <div id="fh5co-page">
 
   {{> sAlert}}
 

@@ -8,4 +8,6 @@ Deps.autorun(function(computation){
   else if(!computation.firstRun){
     FlowRouter.go("/");
   }
+
+
 });

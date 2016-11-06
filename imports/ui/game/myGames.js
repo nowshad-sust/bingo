@@ -7,14 +7,58 @@ import './myGames.html';
 
 
 Template.myGames.onCreated(function gameOnCreated() {
+	
 	this.state = new ReactiveDict();
-	Meteor.subscribe('myGames');
+	
+	Meteor.subscribe( 'myGames', {
+	    
+	    onError: function( error ) {
+	        console.log("Error");
+	    },
+	    onReady: function() {
+				    	
+	    	console.log("games ready");
+
+	  //   	Tracker.autorun(function () {
+			
+			// var userId = Meteor.user()._id;
+			
+			// 		Games.find({
+			// 					$or:[
+			// 	                 {response: "Running"},
+			// 	                 {needsConfirmation: true}
+			// 	                ],
+
+			// 					$or:[
+			// 	                 {userId: userId},
+			// 	                 {opponentId: userId}
+			// 	                ] 
+			// 		            }).observeChanges({
+			// 		    added: (id, fields) => {
+			// 		        console.log('added');
+			// 		        //show notification if the user is receiver
+			// 		        sAlert.info('You have a new game pending!');
+			// 		    },
+			// 		    changed: (id, fields) => {
+			// 		        console.log('changed');
+			// 		        //show notification if the user is receiver
+			// 		        sAlert.success('Your game is accepted');
+			// 		    },
+			// 		    removed: (id) => {
+			// 		    	console.log('removed');
+			// 		    	//show notification if the user is receiver
+			// 		        sAlert.warning('You game was declined!');
+			// 		    }
+			// 	});
+			// })    
+	    }
+	});
 });
 
 Template.myGames.onRendered(function gameOnCreated() {
 
+	  
 });
-
 
 Template.myGames.helpers({
 
@@ -87,10 +131,10 @@ Template.myGames.helpers({
 				}else{
 					result = 'Lost';
 				}
-				button = "<a class='btn btn-default' href='/games/"+game._id+"'>Watch</a>";
+				button = "<a class='btn btn-default btn-xs' href='/games/"+game._id+"'>Watch</a>";
 			}else{
 				result = 'Running';
-				button = "<a class='btn btn-success' href='/games/"+game._id+"'>Play</a>";
+				button = "<a class='btn btn-success btn-xs' href='/games/"+game._id+"'>Play</a>";
 			}
 
 			var now = moment(new Date()); //todays date
@@ -157,7 +201,7 @@ Template.myGames.events({
 				if(error){
 					sAlert.error('Boom! Something went wrong!');
 				}else{
-						sAlert.warning('Game request cancelled!');
+					sAlert.warning('Game request cancelled!');
 				}
 			});
 		} catch (e) {
@@ -168,7 +212,7 @@ Template.myGames.events({
 	'click .btn-decline': function(event){
 			var gameId = event.target.getAttribute("id");
 			//cancel the request
-			return Meteor.call('cancelGame', gameId, (error, result)=>{
+			return Meteor.call('cancelGame', gameId, function(error, result){
 				if(error){
 					sAlert.error('Boom! Something went wrong!');
 				}else{
@@ -180,13 +224,12 @@ Template.myGames.events({
 
 	'click .btn-accept': function(event){
 		var gameId = event.target.getAttribute("id");
-		console.log(gameId);
 		//initiate a game here;
-		return Meteor.call('acceptGame', gameId, (error, result)=>{
+		return Meteor.call('acceptGame', gameId, function(error, result){
 			if(error){
 				sAlert.error('Boom! Something went wrong!');
 			}else{
-				console.log("game accepted: " + result);
+				console.log("game accepted");
 				sAlert.success('Game request is accepted!');
 			}
 			FlowRouter.go('games',{gameId: gameId});

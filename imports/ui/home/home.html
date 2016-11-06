@@ -7,29 +7,27 @@
   					<h2>Bingo!</h2>
   					<p>A Turn Based Board Game. </p>
             <a target="_blank" href="https://github.com/nowshad-sust/bingo" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+            
             <hr>
+
             <br>
-            <div class="testimony">
-						<span class="quote"><i class="icon-quote-right"></i></span>
-  						<blockquote>
-  							<span id="quote"></span>
-  						</blockquote>
-					  </div>
+
+            {{> quote}}
+            
   				</div>
   			</div>
   		</div>
   	</div>
 
-      <script type="text/javascript">
-      $(document).ready(function(){
-        var quote = $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?", function(data){
-          if(data){
-              $("#quote").append(data[0].content + "<br>" + data[0].title);
-          }else{
-              $("#quote").append("Make your every heartbeat count" + "<br>" + "Unknown");
-          }
-        });
-      });
-      </script>
+</template>
+
+<template name="quote">
+
+  <div class="testimony">
+    <span class="quote"><i class="icon-quote-right"></i></span>
+    <blockquote>
+      <span id="quote"></span>
+    </blockquote>
+  </div>
 
 </template>

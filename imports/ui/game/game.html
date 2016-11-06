@@ -20,7 +20,7 @@
       </h4>
       <h4 class="text-center">
         {{#if thisGame.mainGame.result}}
-
+      
             {{#if gameWinner.status}}
             <div class="alert alert-success" role="alert">Game Finished
               <br>Result:
@@ -31,6 +31,12 @@
               <br>Result:
                 {{{ gameWinner.winner }}}
             </div>
+            {{/if}}
+
+            {{#if checkUser thisGame.userId}}
+              <button type="button" opponent_id="{{ thisGame.opponentId }}" class="btn-rematch btn btn-xs btn-success">Play Again</button>
+            {{else}}
+              <button type="button" opponent_id="{{ thisGame.userId }}" class="btn-rematch btn btn-xs btn-success">Play Again</button>
             {{/if}}
 
         {{else}}

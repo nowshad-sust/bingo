@@ -47,7 +47,7 @@ Template.game.helpers({
 		var game = Games.findOne({_id:gameId});
 		//check the is finished or not
 		if(game.mainGame.result == Meteor.user()._id){
-			return {status:true,winner:"You Won <br><hr> <img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>"};
+			return {status:true,winner:"You Won <br>"+ "<a href='' " +"<hr> <img class='result-image' src='http://www.reactiongifs.com/r/drj1NmK.gif'>"};
 		}else if(game.mainGame.result == 'draw'){
 			return {status:false,winner:"Game Drawn! <br><hr> <img class='result-image' src='https://media.tenor.co/images/3a323dc32c9f5324ac65f5c8ec96bbaa/raw'>"};
 		}else{
@@ -82,6 +82,46 @@ Template.game.helpers({
 });
 
 Template.game.events({
+
+	// 'click .btn-rematch': function(event){
+	// 	//check if anyone of you already requested a rematch
+	// 	var opponentId = event.target.getAttribute("opponent_id");
+	// 	var userId = Meteor.user()._id;
+
+	// 	var rematch = Games.findOne({
+	// 		needsConfirmation: true,
+	// 		$or:[
+	// 			{userId: userId, opponentId: opponentId},
+	// 			{userId: opponentId, opponentId: userId}
+	// 		]
+	// 	});
+
+	// 	if(rematch){
+	// 		//update the rematch
+	// 		var gameId = rematch._id;
+	// 		//initiate a game here;
+	// 		Meteor.call('acceptGame', gameId, (error, result)=>{
+	// 			if(error){
+	// 				sAlert.error('Boom! Something went wrong!');
+	// 			}else{
+	// 				console.log("game accepted: " + result);
+	// 				sAlert.success('Game request is accepted!');
+	// 			}
+	// 			FlowRouter.go('games',{gameId: gameId});
+	// 		});
+	// 	}else{
+	// 		//create a new game between these two users
+	// 		$response = Meteor.call('createGame',userId,opponentId, function(error, result){
+	// 			if(error){
+	// 				sAlert.error('Boom! Something went wrong!');
+	// 			}else{
+	// 				FlowRouter.go('mygames');
+	// 				sAlert.success('Game request sent!');
+	// 			}
+	// 		});
+	// 	}
+
+	// },
 
 	'submit .message-form'(event) {
 			//$('.message-scroll').scrollTop($('.message-scroll')[0].height());

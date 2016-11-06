@@ -40,8 +40,7 @@
 
       <div class="row">
         <p class="text-danger">
-          <small>You are watching this game with an intended delay to ensure fair play.
-          Please be honest with your friends.</small>
+          <small>You are watching this game with an intended delay to ensure fair play. The numbers are hidden from you intentionally. Please be honest with your friends.</small>
         </p>
         <div class="col-md-6">
           <h4>{{ thisGame.userName }}'s board</h4>
@@ -56,7 +55,7 @@
                 {{else}}
                   <td data="{{ thisGame.mainGame.turn }}"
                       index="{{ @index }}"
-                      status=false>{{entry.number}}</td>
+                      status=false> X </td>
                 {{/if}}
               {{/each}}
             </table>
@@ -75,7 +74,7 @@
                 {{else}}
                   <td data="{{ thisGame.mainGame.turn }}"
                       index="{{ @index }}"
-                      status=false>{{entry.number}}</td>
+                      status=false> X </td>
                 {{/if}}
               {{/each}}
             </table>

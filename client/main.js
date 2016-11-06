@@ -35,15 +35,6 @@ Meteor.startup(function () {
 
 });
 
-$(document).on('click',function(){
+$( document ).on('click',function(){
     $('.nav-menu').collapse('hide');
 })
-
-$( document ).ready(function() {
-    console.log( "ready!" );
-    $('.loader').fadeOut('slow');
-    $('#fh5co-page').show();
-    $('.loader-div').delay(350).fadeOut('slow');
-     // will fade out the white DIV that covers the website. 
-    //$('#fh5co-page').delay(2000).css({'overflow':'visible', 'visibility': 'visible', 'display': 'block'});
-});

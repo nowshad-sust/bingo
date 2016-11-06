@@ -31,6 +31,7 @@ if (Meteor.isServer) {
   let isStopped = false;
 
   const handle = Games.find({  _id: gameId }).observeChanges({
+    
     added: (id, fields) => {
       Meteor.setTimeout(() => {
         if (!isStopped) {
