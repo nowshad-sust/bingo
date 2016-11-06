@@ -7,6 +7,7 @@ import './footer.html';
 import './scripts.html';
 import './layout.css';
 
+
 Template.layout.helpers({
 
 });
