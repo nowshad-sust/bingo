@@ -7,7 +7,6 @@
       {{#if thisGame }}
       <div class="col-md-7 text-center">
 
-      <h4 class="text-center">In Game: {{ thisGame._id }}</h4>
       <h4>{{#if checkUser thisGame.userId}}
         <strong>You</strong>
         vs
@@ -33,11 +32,14 @@
             </div>
             {{/if}}
 
-            {{#if checkUser thisGame.userId}}
+
+            {{{ playAgain thisGame.userId thisGame.opponentId }}}
+
+            <!-- {{#if checkUser thisGame.userId}}
               <button type="button" opponent_id="{{ thisGame.opponentId }}" class="btn-rematch btn btn-xs btn-success">Play Again</button>
             {{else}}
               <button type="button" opponent_id="{{ thisGame.userId }}" class="btn-rematch btn btn-xs btn-success">Play Again</button>
-            {{/if}}
+            {{/if}} -->
 
         {{else}}
 

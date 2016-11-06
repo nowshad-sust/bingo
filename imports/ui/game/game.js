@@ -11,7 +11,8 @@ Template.game.onCreated(function gameOnCreated() {
 	this.state = new ReactiveDict();
 	var gameId = FlowRouter.getParam('gameId');
 	Meteor.subscribe('users');
-	Meteor.subscribe('thisGame', gameId);
+	//Meteor.subscribe('thisGame', gameId);
+	Meteor.subscribe('myGames');
 });
 
 
@@ -19,6 +20,56 @@ gameId = FlowRouter.getParam('gameId');
 game = Games.findOne({_id:gameId});
 
 Template.game.helpers({
+
+	playAgain: function(userId, opponentId){
+
+		//check any game that is waiting to be started
+
+		var waitingGame = Games.findOne({
+
+			needsConfirmation: false,
+		      $or:[
+		        {userId: userId, opponentId: opponentId},
+		        {userId: opponentId, opponentId: userId}
+		      ],
+		      $or:[
+		        {'mainGame.status.user': false},
+		        {'mainGame.status.opponent': false}
+		      ]
+	    });
+
+
+	    if(waitingGame){
+	    	return "<button gameid='"+ waitingGame._id +"' class='btn btn-play btn-info'> Play</button>";
+	    }		
+		//if any existing requests exists then
+		// show accept and deny button
+
+	    var rematch = Games.findOne({
+	      needsConfirmation: true,
+	      $or:[
+	        {userId: userId, opponentId: opponentId},
+	        {userId: opponentId, opponentId: userId}
+	      ]
+	    });
+
+		if(rematch){
+	      //check the user is receiver or sender
+	      if(rematch.userId == Meteor.user()._id){
+	        return "<button gameid='"+ rematch._id +"' class='btn btn-cancel btn-danger btn-xs'> Cancel Game Request</button>";
+	      }else{
+	        return "<button gameid='"+ rematch._id +"' class='btn btn-accept btn-success btn-xs'> Accept</button><button gameid='"+ rematch._id +"' class='btn btn-deny btn-danger btn-xs'> Deny</button>";
+	      }
+
+	    }else{
+	    	if(userId == Meteor.user()._id){
+	    		return "<button opponentid='"+ opponentId +"' class='btn btn-invite btn-info btn-xs'> Play Again</button>";
+	    	}else{
+	    		return "<button opponentid='"+ userId +"' class='btn btn-invite btn-info btn-xs'> Play Again</button>";
+	    	}
+	    }
+
+	},
 	and: function(value1, value2){
 		return (value1 && value2);
 	},
@@ -83,45 +134,65 @@ Template.game.helpers({
 
 Template.game.events({
 
-	// 'click .btn-rematch': function(event){
-	// 	//check if anyone of you already requested a rematch
-	// 	var opponentId = event.target.getAttribute("opponent_id");
-	// 	var userId = Meteor.user()._id;
+	'click .btn-invite': function(event){
+		var opponentId = event.target.getAttribute("opponentid");
+		var userId = Meteor.user()._id;
+		//create a new game between these two users
+		$response = Meteor.call('createGame',userId,opponentId, function(error, result){
+			if(error){
+				sAlert.error('Boom! Something went wrong!');
+			}else{
+				//FlowRouter.go('mygames');
+				sAlert.success('Game request sent!');
+			}
+		});
 
-	// 	var rematch = Games.findOne({
-	// 		needsConfirmation: true,
-	// 		$or:[
-	// 			{userId: userId, opponentId: opponentId},
-	// 			{userId: opponentId, opponentId: userId}
-	// 		]
-	// 	});
+	},
 
-	// 	if(rematch){
-	// 		//update the rematch
-	// 		var gameId = rematch._id;
-	// 		//initiate a game here;
-	// 		Meteor.call('acceptGame', gameId, (error, result)=>{
-	// 			if(error){
-	// 				sAlert.error('Boom! Something went wrong!');
-	// 			}else{
-	// 				console.log("game accepted: " + result);
-	// 				sAlert.success('Game request is accepted!');
-	// 			}
-	// 			FlowRouter.go('games',{gameId: gameId});
-	// 		});
-	// 	}else{
-	// 		//create a new game between these two users
-	// 		$response = Meteor.call('createGame',userId,opponentId, function(error, result){
-	// 			if(error){
-	// 				sAlert.error('Boom! Something went wrong!');
-	// 			}else{
-	// 				FlowRouter.go('mygames');
-	// 				sAlert.success('Game request sent!');
-	// 			}
-	// 		});
-	// 	}
+	'click .btn-cancel': function(event){
+		var gameId = event.target.getAttribute("gameid");
+		//cancel the request
+		Meteor.call('cancelGame', gameId, function(error, result){
+			if(error){
+				sAlert.error('Boom! Something went wrong!');
+			}else{
+				sAlert.warning('Game request cancelled!');
+			}
+		});
+	},
 
-	// },
+	'click .btn-deny': function(event){
+			var gameId = event.target.getAttribute("gameid");
+			//cancel the request
+			Meteor.call('cancelGame', gameId, (error, result)=>{
+				if(error){
+					sAlert.error('Boom! Something went wrong!');
+				}else{
+						sAlert.warning('Game request Declined!');
+				}
+
+			});
+		},
+
+	'click .btn-accept': function(event){
+		var gameId = event.target.getAttribute("gameid");
+		//initiate a game here;
+		Meteor.call('acceptGame', gameId, (error, result)=>{
+			if(error){
+				sAlert.error('Boom! Something went wrong!');
+			}else{
+				console.log("game accepted: " + result);
+				sAlert.success('Game request is accepted!');
+			}
+			FlowRouter.go('games',{gameId: gameId});
+			
+		});
+	},
+
+	'click .btn-play': function(event){
+		var gameId = event.target.getAttribute("gameid");
+		FlowRouter.go('games',{gameId: gameId});
+	},
 
 	'submit .message-form'(event) {
 			//$('.message-scroll').scrollTop($('.message-scroll')[0].height());
