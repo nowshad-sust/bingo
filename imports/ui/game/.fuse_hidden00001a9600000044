@@ -28,13 +28,16 @@ Template.game.helpers({
 		var waitingGame = Games.findOne({
 
 			needsConfirmation: false,
-		    $or:[
-		    	{ userId: userId, opponentId: opponentId },
-		    	{ userId: opponentId, opponentId: userId }
-		    ],
-		    'mainGame.status.user': false,
-		    'mainGame.status.opponent': false
+		      $or:[
+		        {userId: userId, opponentId: opponentId},
+		        {userId: opponentId, opponentId: userId}
+		      ],
+		      $or:[
+		        {'mainGame.status.user': false},
+		        {'mainGame.status.opponent': false}
+		      ]
 	    });
+
 
 	    if(waitingGame){
 	    	return "<button gameid='"+ waitingGame._id +"' class='btn btn-play btn-info'> Play</button>";

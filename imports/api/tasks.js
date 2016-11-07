@@ -99,6 +99,7 @@ if (Meteor.isServer) {
 
 
   Meteor.publish("myGames", function() {
+    
     var userId = this.userId;
 
     var games =  Games.find({ $or:[{userId: userId},{opponentId: userId}]});

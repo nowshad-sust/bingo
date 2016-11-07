@@ -1,0 +1,17 @@
+<template name="layout">
+
+<div id="fh5co-page">
+
+  {{> sAlert}}
+
+  {{> nav}}
+  <div class="body">  
+  	{{> Template.dynamic template=child}}
+  </div>
+
+	{{> footer}}
+</div>
+
+ {{> scripts}}
+
+</template>
