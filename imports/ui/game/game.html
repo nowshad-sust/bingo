@@ -278,7 +278,7 @@
                                             <span class="small pull-right">{{ formatTime entry.timestamp }}</span>
                                         </h4>
                                         <p class="text-left">
-                                          {{entry.message}}
+                                          {{{ parseEmoticons entry.message }}}
                                         </p>
                                     </div>
                                 </div>
@@ -300,7 +300,7 @@
                                             <span class="small pull-right">{{ formatTime entry.timestamp }}</span>
                                         </h4>
                                         <p class="text-left">
-                                          {{entry.message}}
+                                          {{{ parseEmoticons entry.message }}}
                                         </p>
                                     </div>
                                 </div>
@@ -313,15 +313,18 @@
                     </div>
                     </div>
                     <div class="portlet-footer">
-                        <form class="message-form">
-                            <div class="form-group">
-                                <input name='message' type="text" class="form-control input-sm" placeholder="Type your message here...">
+                        
+                        <form class="message-form form-inline">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input name='message' type="text" class="form-control input-sm" placeholder="Your message here...">
+                              <div class="input-group-addon">
+                                <button class="btn btn-xs" id="btn-chat" type="submit" >Send</button>
+                              </div>
                             </div>
-                            <div class="form-group">
-                                <button class="btn btn-default pull-right" id="btn-chat" type="submit" >Send</button>
-                                <div class="clearfix"></div>
-                            </div>
+                          </div>
                         </form>
+
                     </div>
                 </div>
             </div>

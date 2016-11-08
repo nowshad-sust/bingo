@@ -79,7 +79,9 @@ Template.game.helpers({
 		return game;
 	},
 	isOnline: function(userId){
-		return Meteor.users.findOne({_id: userId}).status.online;
+		var user = Meteor.users.findOne({_id: userId});
+
+		return (user && user.status && user.status.online);
 	},
 	formatTime: function(timestamp){
 		return moment(timestamp).fromNow();
