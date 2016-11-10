@@ -1,3 +1,5 @@
+/* ovveride the page number fields to make it wider
+becuase by default the number hides in the small input fields*/
 .reactive-table-navigation .form-inline input {
     overflow: hidden !important;
     min-width: 70px;
@@ -34,7 +36,8 @@ html {
 table, th, tr, td {
     text-align: center;
 }
-
+/*setting the min height of the body to make sure the footer doesn't come up 
+even the body is short*/
 .body{
     min-height: 575px;
 }

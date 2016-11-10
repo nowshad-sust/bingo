@@ -1,3 +1,4 @@
+//importing all libs and layouts
 import { Meteor } from 'meteor/meteor';
 
 import '../imports/ui/layout/layout.js';
@@ -12,8 +13,10 @@ import '../imports/ui/users/users.js';
 import '../imports/ui/contact/contact.js';
 import '../imports/ui/admin/contact.js';
 import '../imports/ui/admin/dashboard.js';
+//end of import
 
 
+//tracker to get some loading effect
 Tracker.autorun(function() {
     
     if(!FlowRouter.subsReady()){
@@ -23,7 +26,11 @@ Tracker.autorun(function() {
     }
 
 });
+//end of tracker
 
+
+
+//declaring routes
 FlowRouter.route('/',{
   name: 'home',
   action(){
@@ -100,9 +107,6 @@ var adminRoutes = FlowRouter.group({
   prefix: '/admin',
   name: 'admin',
   triggersEnter: [function(context, redirect) {
-    //make a filter to check the user is logged in
-    //and has admin role
-    //generate a toastr
       Meteor.call('isAdmin', function(error, result){
         if(error || !result){
           sAlert.error('You are not an admin',{timeout:2000,position: 'bottom-right'});

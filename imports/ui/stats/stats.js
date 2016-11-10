@@ -20,7 +20,7 @@ Template.myPieChart.onRendered(function(){
 	var won = Games.find({response: 'Finished','mainGame.result': Meteor.user()._id}).count();
 	var lost = Games.find({response: 'Finished', 'mainGame.result': {$ne: Meteor.user()._id} }).count();
 	var draw = Games.find({response: 'Finished', 'mainGame.result': 'draw'}).count();
-  var running = Games.find({response: 'Running', 'mainGame.result': null}).count();
+  	var running = Games.find({response: 'Running', 'mainGame.result': null}).count();
 
 	var data = {
     labels: [
@@ -45,16 +45,16 @@ Template.myPieChart.onRendered(function(){
                 "black"
             ]
         }]
-			};
+	};
 		var ctx = $("#myChart");
 		// For a pie chart
 		var myPieChart = new Chart(ctx,{
 		    type: 'pie',
 		    data: data,
-				options: {
-        responsive: true
-			}
-		});
+			options: {
+        		responsive: true
+				}
+			});
 		});
 });
 

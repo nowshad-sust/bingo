@@ -1,22 +1,28 @@
+//importing necessary things
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
+
+//export collections
 export const Games = new Mongo.Collection('games');
 export const Contacts = new Mongo.Collection('contacts');
 
-if (Meteor.isServer) {
 
+if (Meteor.isServer) {
+  //deny any user update
   Meteor.users.deny({
     update: function() {
       return true;
     }
   });
 
+  /*publishing data to templates*/
+
   Meteor.publish('users', function UsersPublication() {
     return Meteor.users.find({},{username: 1, profile: 1});
   });
-
+  
   Meteor.publish('thisGame', function ThisGamePublication(gameId) {
     var game = Games.find({ _id: gameId });
     return game;

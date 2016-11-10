@@ -3,7 +3,7 @@ import '../imports/startup/loginTracker.js';
 import { sAlert } from 'meteor/juliancwirko:s-alert';
 
 Meteor.startup(function () {
-
+/* tostr notifications default setup */
     sAlert.config({
         effect: 'genie',
         position: 'bottom-right',
@@ -35,6 +35,8 @@ Meteor.startup(function () {
 
 });
 
+
+//close nav menu if user clicks anywhere on the document
 $( document ).on('click',function(){
     $('.nav-menu').collapse('hide');
 })

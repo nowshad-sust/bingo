@@ -61,7 +61,7 @@ Template.myGames.onRendered(function gameOnCreated() {
 });
 
 Template.myGames.helpers({
-
+	//pending game list
 	requestSettings: function () {
 		var userId = Meteor.user()._id;
 		var games = Games.find({ needsConfirmation:true, $or:[{userId:userId},{opponentId:userId}] },{sort: {_id: -1}});
@@ -105,6 +105,7 @@ Template.myGames.helpers({
 							]
         };
     },
+    //show user games log
 	settings: function () {
 		var userId = Meteor.user()._id;
 		var games = Games.find({ needsConfirmation:false,

@@ -6,7 +6,9 @@ import { sAlert } from 'meteor/juliancwirko:s-alert';
 
 import './spectate.html';
 import './spectate.css';
+
 masterGame  = null;
+
 Template.spectate.onCreated(function() {
 	this.state = new ReactiveDict();
 	var gameId = FlowRouter.getParam('gameId');
@@ -60,14 +62,14 @@ Template.spectate.helpers({
 	},
 	ifCheck: function(index){
 		if(index==5 || index==10 || index==15 || index==20){
-        return '</tr><tr>';
-    }else if(index==0){
-      return '<tr>';
-    }else if(index==24){
-      return '</tr>';
-    }else {
-      return null;
-    }
+	        return '</tr><tr>';
+	    }else if(index==0){
+	      return '<tr>';
+	    }else if(index==24){
+	      return '</tr>';
+	    }else {
+	      return null;
+	    }
 	},
 });
 

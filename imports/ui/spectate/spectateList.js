@@ -19,20 +19,21 @@ Template.spectateList.helpers({
 
 	spectate: function () {
 
-			var t = new Date();
+		var t = new Date();
 	    t.setSeconds(t.getSeconds() - 60);
 
-			var userId = Meteor.user()._id;
-			var games = Games.find({  'mainGame.result': null,
-																$or:[
-																	{'mainGame.timestamp': { $gte : t }},
-																	{'mainGame.lastSelection.timestamp': { $gte : t }}
-																],
-				                        userId: { $ne: userId },
-				                        opponentId: { $ne: userId }
-															},
+		var userId = Meteor.user()._id;
+		var games = Games.find({  	'mainGame.result': null,
+									$or:[
+										{'mainGame.timestamp': { $gte : t }},
+										{'mainGame.lastSelection.timestamp': { $gte : t }}
+									],
+				                    userId: { $ne: userId },
+			                        opponentId: { $ne: userId }
+									},
 
-													 {sort: {'mainGame.lastSelection.timestamp': -1}});
+									{sort: {'mainGame.lastSelection.timestamp': -1}}
+								);
 
 			var gamesArray = [];
 

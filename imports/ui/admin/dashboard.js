@@ -11,10 +11,12 @@ import './dashboard.html';
 import './adminNav.html';
 
 Template.adminDashboard.onCreated(function usersOnCreated() {
+	
 	this.state = new ReactiveDict();
+	
 	Meteor.subscribe('allUsers');
 	Meteor.subscribe('contacts');
-  Meteor.subscribe('allGames');
+  	Meteor.subscribe('allGames');
 });
 
 Template.pieChart.onRendered(function(){
@@ -26,35 +28,35 @@ Template.pieChart.onRendered(function(){
 	var draw = Games.find({'mainGame.result': 'draw'}).count();
 
 	var data = {
-    labels: [
-        "Drawn",
-        "Win/Loss",
-        "Running"
-    ],
-    datasets: [
-        {
-            data: [draw, finished, running],
-            backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ],
-            hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-            ]
-        }]
-			};
+	    labels: [
+	        "Drawn",
+	        "Win/Loss",
+	        "Running"
+	    ],
+	    datasets: [
+	        {
+	            data: [draw, finished, running],
+	            backgroundColor: [
+	                "#FF6384",
+	                "#36A2EB",
+	                "#FFCE56"
+	            ],
+	            hoverBackgroundColor: [
+	                "#FF6384",
+	                "#36A2EB",
+	                "#FFCE56"
+	            ]
+	        }]
+		};
 		var ctx = $("#pieChart");
 		// For a pie chart
 		var myPieChart = new Chart(ctx,{
 		    type: 'pie',
 		    data: data,
-				options: {
-        responsive: true
-			}
-		});
+			options: {
+        		responsive: true
+				}
+			});
 		});
 });
 
@@ -75,20 +77,20 @@ Template.barChart.onRendered(function(){
 		    datasets: [
 		        {
 		            label: "Day's gameplays",
-								backgroundColor: 'rgba(54, 162, 235, 0.2)',
+					backgroundColor: 'rgba(54, 162, 235, 0.2)',
 		            borderWidth: 1,
 		            data: data
 		        }
-		    	]
-				};
-					var ctx = $("#barChart");
-					var myBarChart = new Chart(ctx, {
-					    type: 'bar',
-					    data: data,
-							options: {
-			        	responsive: true
-							}
-					});
+		    ]
+			};
+			var ctx = $("#barChart");
+			var myBarChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: data,
+				options: {
+	        		responsive: true
+					}
+				});
 			}
 		});
 

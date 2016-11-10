@@ -21,6 +21,8 @@ game = Games.findOne({_id:gameId});
 
 Template.game.helpers({
 
+	//button management for starting a new game with
+	//the current user
 	playAgain: function(userId, opponentId){
 
 		//check any game that is waiting to be started
@@ -118,16 +120,17 @@ Template.game.helpers({
 			return false;
 		}
 	},
+	//this function makes the game board
 	ifCheck: function(index){
 		if(index==5 || index==10 || index==15 || index==20){
-        return '</tr><tr>';
-    }else if(index==0){
-      return '<tr>';
-    }else if(index==24){
-      return '</tr>';
-    }else {
-      return null;
-    }
+        	return '</tr><tr>';
+	    }else if(index==0){
+	      return '<tr>';
+	    }else if(index==24){
+	      return '</tr>';
+	    }else {
+	      return null;
+	    }
 	},
 });
 

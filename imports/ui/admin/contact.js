@@ -13,7 +13,8 @@ Template.adminContact.onCreated(function usersOnCreated() {
 });
 
 Template.adminContact.helpers({
-  getContacts: function(){
-    return Contacts.find({}, {sort: {timestamp: -1}});
-  }
+	//show contact messages
+	  getContacts: function(){
+	    return Contacts.find({}, {sort: {timestamp: -1}});
+	  }
 });
