@@ -6,30 +6,30 @@
 
 meteor-base@1.0.4             # Packages every Meteor app needs to have
 mobile-experience@1.0.4       # Packages for a great mobile UX
-mongo@1.1.12                   # The database Meteor supports right now
+mongo@1.1.14                   # The database Meteor supports right now
 blaze-html-templates@1.0.4    # Compile .html files into Meteor Blaze views
-reactive-var@1.0.10            # Reactive variable for tracker
-tracker@1.1.0                 # Meteor's client-side reactive programming library
+reactive-var@1.0.11            # Reactive variable for tracker
+tracker@1.1.1                 # Meteor's client-side reactive programming library
 
-es5-shim@4.6.14                # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.5.8              # Enable ECMAScript2015+ syntax in app code
+es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
+ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 kadira:flow-router
 kadira:blaze-layout
 fortawesome:fontawesome
 aldeed:collection2
 ian:accounts-ui-bootstrap-3
-accounts-password
-accounts-facebook
-accounts-google
+accounts-password@1.3.3
+accounts-facebook@1.0.11
+accounts-google@1.0.11
 sacha:spin
-check
-reactive-dict
+check@1.2.4
+reactive-dict@1.1.8
 mizzao:user-status
-session
+session@1.1.7
 juliancwirko:s-alert
 juliancwirko:s-alert-genie
 aslagle:reactive-table
 momentjs:moment
 meteorhacks:aggregate
-less
+less@2.7.8
 mattimo:emoticons

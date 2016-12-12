@@ -10,6 +10,10 @@ export const Contacts = new Mongo.Collection('contacts');
 
 
 if (Meteor.isServer) {
+Meteor.startup(function () {  
+	Games._ensureIndex({ "_id":1, "userId": 1, "opponentId":1});  
+	Meteor.users._ensureIndex({ "_id":1, "status.online": 1});
+});
   //deny any user update
   Meteor.users.deny({
     update: function() {

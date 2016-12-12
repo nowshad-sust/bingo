@@ -17,7 +17,7 @@ Template.myGames.onCreated(function gameOnCreated() {
 	    },
 	    onReady: function() {
 				    	
-	    	console.log("games ready");
+	    	//console.log("games ready");
 
 	  //   	Tracker.autorun(function () {
 			
@@ -195,7 +195,7 @@ Template.myGames.events({
 	'click .btn-cancel': function(event){
 
 		var gameId = event.target.getAttribute("id");
-		console.log(gameId);
+		//console.log(gameId);
 		//cancel the request
 		try {
 			Meteor.call('cancelGame', gameId, function(error, result){
