@@ -6,6 +6,11 @@ import { Games } from '../../api/tasks.js';
 import './users.html';
 
 Template.users.onCreated(function usersOnCreated() {
+
+	if(!Meteor.user()){
+		//FlowRouter.go('back');
+		sAlert.warning('You are not logged in!');
+	}
 	this.state = new ReactiveDict();
 	//Meteor.subscribe('activeUsers');
 	Meteor.subscribe('userGames');
